@@ -2,6 +2,7 @@ package cn.edu.chzu.collegetalent.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class CtQuestionnaires implements Serializable {
     private Integer id;
@@ -17,6 +18,8 @@ public class CtQuestionnaires implements Serializable {
     private Date createTime;
 
     private Date updateTime;
+
+    private List<CtSubject> subjects;
 
     private static final long serialVersionUID = 1L;
 
@@ -86,11 +89,20 @@ public class CtQuestionnaires implements Serializable {
         sb.append(", name=").append(name);
         sb.append(", type=").append(type);
         sb.append(", endTime=").append(endTime);
+        sb.append(", subjects=").append(subjects);
         sb.append(", delFlag=").append(delFlag);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public List<CtSubject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<CtSubject> subjects) {
+        this.subjects = subjects;
     }
 }

@@ -10,6 +10,48 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  <resultMap id="QuestionnairesMap" type="cn.edu.chzu.collegetalent.model.CtQuestionnaires" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <collection property="subjects" ofType="cn.edu.chzu.collegetalent.model.CtSubject" column="id">
+      <id column="sid" property="id"/>
+      <result column="qn_id" property="qnId" jdbcType="INTEGER" />
+      <result column="num" property="num" jdbcType="INTEGER" />
+      <result column="content" property="content" jdbcType="VARCHAR" />
+      <result column="stype" property="type" jdbcType="VARCHAR" />
+      <result column="option" property="option" jdbcType="VARCHAR" />
+      <result column="sdel_flag" property="delFlag" jdbcType="INTEGER" />
+      <result column="screate_time" property="createTime" jdbcType="TIMESTAMP" />
+      <result column="supdate_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </collection>
+  </resultMap>
+  <select id="selectQuestionnaireWithSubject" parameterType="cn.edu.chzu.collegetalent.model.CtQuestionnaires" resultMap="QuestionnairesMap">
+    SELECT
+			q.id,
+			q.`name`,
+			q.`type`,
+			q.end_time,
+			q.del_flag,
+			q.create_time,
+			q.update_time,
+			s.id AS sid,
+			s.qn_id,
+			s.num,
+			s.content,
+			s.type as stype,
+			s.option,
+			s.del_flag as sdel_flag,
+			s.create_time as screate_time,
+			s.update_time as supdate_time
+		FROM
+			ct_questionnaires q
+		LEFT JOIN ct_subject s ON q.id = s.qn_id
+  </select>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -69,7 +111,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, type, end_time, del_flag, create_time, update_time
+    id, `name`, `type`, end_time, del_flag, create_time, update_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.chzu.collegetalent.model.CtQuestionnairesExample" >
     select
@@ -106,7 +148,7 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ct_questionnaires (name, type, end_time, 
+    insert into ct_questionnaires (`name`, `type`, end_time,
       del_flag, create_time, update_time
       )
     values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{endTime,jdbcType=TIMESTAMP}, 
@@ -120,10 +162,10 @@
     insert into ct_questionnaires
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="name != null" >
-        name,
+        `name`,
       </if>
       <if test="type != null" >
-        type,
+        `type`,
       </if>
       <if test="endTime != null" >
         end_time,
@@ -172,10 +214,10 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
+        `name` = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.type != null" >
-        type = #{record.type,jdbcType=VARCHAR},
+        `type` = #{record.type,jdbcType=VARCHAR},
       </if>
       <if test="record.endTime != null" >
         end_time = #{record.endTime,jdbcType=TIMESTAMP},
@@ -197,8 +239,8 @@
   <update id="updateByExample" parameterType="map" >
     update ct_questionnaires
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=VARCHAR},
+      `name` = #{record.name,jdbcType=VARCHAR},
+      `type` = #{record.type,jdbcType=VARCHAR},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       del_flag = #{record.delFlag,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -211,10 +253,10 @@
     update ct_questionnaires
     <set >
       <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+        `name` = #{name,jdbcType=VARCHAR},
       </if>
       <if test="type != null" >
-        type = #{type,jdbcType=VARCHAR},
+        `type` = #{type,jdbcType=VARCHAR},
       </if>
       <if test="endTime != null" >
         end_time = #{endTime,jdbcType=TIMESTAMP},
@@ -233,8 +275,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.chzu.collegetalent.model.CtQuestionnaires" >
     update ct_questionnaires
-    set name = #{name,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR},
+    set `name` = #{name,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=VARCHAR},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       del_flag = #{delFlag,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},

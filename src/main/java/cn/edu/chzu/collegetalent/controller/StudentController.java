@@ -28,7 +28,7 @@ import java.util.List;
 @CommonsLog
 @Controller
 @RequestMapping("/students")
-public class StudentController {
+public class StudentController extends BaseApiController {
 
     @Autowired
     private StudentService studentService;
@@ -143,6 +143,7 @@ public class StudentController {
         List<CtStudents> list = studentService.listAll();
         PageInfo<CtStudents> info = new PageInfo<CtStudents>(list);
         responseData.put("data", list);
+        responseData.put("total", info.getTotal());
         responseData.put("totalPage", info.getPages());
         responseData.put("pageNum", pageNum);
         return responseData;

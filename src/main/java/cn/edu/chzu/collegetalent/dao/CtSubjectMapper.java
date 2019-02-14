@@ -20,6 +20,8 @@ public interface CtSubjectMapper {
 
     CtSubject selectByPrimaryKey(Integer id);
 
+    List<CtSubject> selectByQnId(@Param("qnId")Integer qnId);
+
     int updateByExampleSelective(@Param("record") CtSubject record, @Param("example") CtSubjectExample example);
 
     int updateByExample(@Param("record") CtSubject record, @Param("example") CtSubjectExample example);

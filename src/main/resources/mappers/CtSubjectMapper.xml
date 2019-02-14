@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, qn_id, num, content, type, option, del_flag, create_time, update_time
+    id, qn_id, num, content, `type`, `option`, del_flag, create_time, update_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.chzu.collegetalent.model.CtSubjectExample" >
     select
@@ -94,6 +94,12 @@
     from ct_subject
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByQnId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from ct_subject
+    where qn_id = #{qnId,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from ct_subject
     where id = #{id,jdbcType=INTEGER}
@@ -109,7 +115,7 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ct_subject (qn_id, num, content, 
-      type, option, del_flag, 
+      `type`, `option`, del_flag,
       create_time, update_time)
     values (#{qnId,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
       #{type,jdbcType=VARCHAR}, #{option,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, 
@@ -131,10 +137,10 @@
         content,
       </if>
       <if test="type != null" >
-        type,
+        `type`,
       </if>
       <if test="option != null" >
-        option,
+        `option`,
       </if>
       <if test="delFlag != null" >
         del_flag,
@@ -195,10 +201,10 @@
         content = #{record.content,jdbcType=VARCHAR},
       </if>
       <if test="record.type != null" >
-        type = #{record.type,jdbcType=VARCHAR},
+        `type` = #{record.type,jdbcType=VARCHAR},
       </if>
       <if test="record.option != null" >
-        option = #{record.option,jdbcType=VARCHAR},
+        `option` = #{record.option,jdbcType=VARCHAR},
       </if>
       <if test="record.delFlag != null" >
         del_flag = #{record.delFlag,jdbcType=INTEGER},
@@ -220,8 +226,8 @@
       qn_id = #{record.qnId,jdbcType=INTEGER},
       num = #{record.num,jdbcType=INTEGER},
       content = #{record.content,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=VARCHAR},
-      option = #{record.option,jdbcType=VARCHAR},
+      `type` = #{record.type,jdbcType=VARCHAR},
+      `option` = #{record.option,jdbcType=VARCHAR},
       del_flag = #{record.delFlag,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP}
@@ -242,10 +248,10 @@
         content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="type != null" >
-        type = #{type,jdbcType=VARCHAR},
+        `type` = #{type,jdbcType=VARCHAR},
       </if>
       <if test="option != null" >
-        option = #{option,jdbcType=VARCHAR},
+        `option` = #{option,jdbcType=VARCHAR},
       </if>
       <if test="delFlag != null" >
         del_flag = #{delFlag,jdbcType=INTEGER},
@@ -264,8 +270,8 @@
     set qn_id = #{qnId,jdbcType=INTEGER},
       num = #{num,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR},
-      option = #{option,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=VARCHAR},
+      `option` = #{option,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}

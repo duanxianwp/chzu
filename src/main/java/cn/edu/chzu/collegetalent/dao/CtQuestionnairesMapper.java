@@ -18,6 +18,8 @@ public interface CtQuestionnairesMapper {
 
     List<CtQuestionnaires> selectByExample(CtQuestionnairesExample example);
 
+    List<CtQuestionnaires> selectQuestionnaireWithSubject(CtQuestionnaires questionnaires);
+
     CtQuestionnaires selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") CtQuestionnaires record, @Param("example") CtQuestionnairesExample example);

@@ -78,7 +78,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, password, sex, grade, major, employment, employment_company, employment_city, 
+    id, `name`, password, sex, grade, major, employment, employment_company, employment_city,
     phone, wechat, qq, email, del_flag, create_time, update_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.chzu.collegetalent.model.CtStudentsExample" >
@@ -123,7 +123,7 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ct_students (name, password, sex, 
+    insert into ct_students (`name`, password, sex,
       grade, major, employment, 
       employment_company, employment_city, phone, 
       wechat, qq, email, 
@@ -143,7 +143,7 @@
     insert into ct_students
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="name != null" >
-        name,
+        `name`,
       </if>
       <if test="password != null" >
         password,
@@ -249,7 +249,7 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
+        `name` = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.password != null" >
         password = #{record.password,jdbcType=VARCHAR},
@@ -301,7 +301,7 @@
   <update id="updateByExample" parameterType="map" >
     update ct_students
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
+      `name` = #{record.name,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=VARCHAR},
       grade = #{record.grade,jdbcType=VARCHAR},
@@ -324,7 +324,7 @@
     update ct_students
     <set >
       <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+        `name` = #{name,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
@@ -373,7 +373,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.chzu.collegetalent.model.CtStudents" >
     update ct_students
-    set name = #{name,jdbcType=VARCHAR},
+    set `name` = #{name,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       grade = #{grade,jdbcType=VARCHAR},
