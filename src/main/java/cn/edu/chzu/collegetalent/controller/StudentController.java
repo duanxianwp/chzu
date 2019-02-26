@@ -100,8 +100,7 @@ public class StudentController extends BaseApiController {
                          @RequestParam(name = "employmentCity", required = false, defaultValue = "") String employmentCity,
                          @RequestParam(name = "phone") String phone,
                          @RequestParam(name = "wechat", required = false, defaultValue = "") String wechat,
-                         @RequestParam(name = "qq", required = false, defaultValue = "") String qq,
-                         @RequestParam(name = "email") String email){
+                         @RequestParam(name = "qq", required = false, defaultValue = "") String qq){
         CtStudents students = new CtStudents();
         students.setId(id);
         students.setSex(sex);
@@ -113,7 +112,6 @@ public class StudentController extends BaseApiController {
         students.setPhone(phone);
         students.setWechat(wechat);
         students.setQq(qq);
-        students.setEmail(email);
 
         studentService.update(students);
 

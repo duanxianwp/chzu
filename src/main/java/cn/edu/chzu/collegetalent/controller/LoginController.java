@@ -39,7 +39,7 @@ public class LoginController extends BaseApiController{
         }
 
         CtCompany company = companyService.getByEmailAndPassword(email, password);
-        if(company != null){
+        if(company != null&&company.getId()!=null){
             responseData.put("data",company);
             responseData.put("type",1);
         } else{

@@ -86,4 +86,11 @@ public class QuestionnaireController extends BaseApiController {
         return responseData;
     }
 
+    @PostMapping("/addWithSubjest")
+    public Object addWithSubjest(){
+        JSONObject responseData = ServiceParamHelper.createSuccessResultJSONObject();
+
+        return responseData;
+    }
+
 }
