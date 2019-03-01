@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="/res/css/amazeui.min.css" />
+		<link rel="stylesheet" href="/res/css/admin.css" />
+	</head>
+
+	<body>
+		<div class="admin-content-body">
+			<div class="am-cf am-padding am-padding-bottom-0">
+				<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">添加问卷信息</strong><small></small></div>
+			</div>
+			<hr>
+			<div class="am-g">
+				<div class="am-u-sm-12">
+					<form class="am-form" action="/questionnaire/pc/add" method="post">
+						<table class="am-table am-table-striped am-table-hover table-main">
+							<tbody>
+								<tr>
+									<td>名称</td>
+									<td><input type="text" name="name" id="name" placeholder="请输入名称" /></td>
+								</tr>
+								<tr>
+									<td>问卷类型</td>
+									<td>
+										<select name="type">
+											<option value="学生">学生</option>
+											<option value="企业">企业</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>结束时间</td>
+									<td><input type="date" name="endTime" id="endTime" /></td>
+								</tr>
+
+							</tbody>
+						</table>
+						<button type="submit" class="am-btn am-btn-success" >提交</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

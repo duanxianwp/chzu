@@ -46,6 +46,10 @@ public class QuestionnaireService {
         return questionnairesMapper.selectByExample(example);
     }
 
+    public List<CtQuestionnaires> search(String key){
+        return questionnairesMapper.search(key);
+    }
+
     public List<CtQuestionnaires> listAllWithSubject(CtQuestionnaires questionnaires){
         return questionnairesMapper.selectQuestionnaireWithSubject(questionnaires);
     }

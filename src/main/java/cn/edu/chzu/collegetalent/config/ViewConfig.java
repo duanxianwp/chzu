@@ -20,12 +20,7 @@ public class ViewConfig implements WebMvcConfigurer {
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/student_add").setViewName("student_add");
         registry.addViewController("/company_add").setViewName("company_add");
-        registry.addViewController("/user/add").setViewName("user/add");
-        registry.addViewController("/standard/add").setViewName("standard/add");
-        registry.addViewController("/pc/my/index").setViewName("my/index");
-        registry.addViewController("/qrwindow").setViewName("qrwindow");
-        registry.addViewController("/printlist").setViewName("printlist");
-        registry.addViewController("/startprint").setViewName("startprint");
+        registry.addViewController("/question_add").setViewName("question_add");
         registry.addViewController("/404").setViewName("404");
         registry.addViewController("/500").setViewName("500");
     }

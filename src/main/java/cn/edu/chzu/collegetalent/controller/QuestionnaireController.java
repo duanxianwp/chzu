@@ -1,6 +1,7 @@
 package cn.edu.chzu.collegetalent.controller;
 
 import cn.edu.chzu.collegetalent.constant.Constant;
+import cn.edu.chzu.collegetalent.helper.DateHelper;
 import cn.edu.chzu.collegetalent.helper.ServiceParamHelper;
 import cn.edu.chzu.collegetalent.model.CtQuestionnaires;
 import cn.edu.chzu.collegetalent.service.QuestionnaireService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.xml.stream.events.EndDocument;
 import java.util.Date;
 import java.util.List;
 
@@ -31,18 +33,27 @@ public class QuestionnaireController extends BaseApiController {
     @Autowired
     private QuestionnaireService questionnaireService;
 
-    @PostMapping("/add")
+    @PostMapping("/pc/add")
     public Object add(@RequestParam(name = "name") String name,
                       @RequestParam(name = "type") String type,
                       @RequestParam(name = "endTime") String endTime){
         CtQuestionnaires questionnaires = new CtQuestionnaires();
         questionnaires.setName(name);
         questionnaires.setType(type);
-        questionnaires.setEndTime(new Date(endTime));
-        questionnaires = questionnaireService.add(questionnaires);
-        JSONObject responseData = ServiceParamHelper.createSuccessResultJSONObject();
-        responseData.put("data", questionnaires);
-        return responseData;
+        Date endDate = DateHelper.toDate(endTime);
+        questionnaires.setEndTime(endDate);
+        questionnaireService.add(questionnaires);
+
+        PageHelper.startPage(1,10);
+        List<CtQuestionnaires> list = questionnaireService.listAll();
+        PageInfo<CtQuestionnaires> info = new PageInfo<CtQuestionnaires>(list);
+
+        ModelAndView modelAndView = new ModelAndView("question");
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("total", info.getTotal());
+        modelAndView.addObject("pages", info.getPages());
+        modelAndView.addObject("pageNum", info.getPageNum());
+        return modelAndView;
     }
 
     @GetMapping("/get")
@@ -73,10 +84,23 @@ public class QuestionnaireController extends BaseApiController {
     @GetMapping("/view/list")
     public Object listView(@RequestParam(name = "pageNum", defaultValue = Constant.defaultPageNum) Integer pageNum,
                        @RequestParam(name = "pageSize", defaultValue = Constant.defaultPageSize) Integer pageSize){
-        JSONObject responseData = ServiceParamHelper.createSuccessResultJSONObject();
-
         PageHelper.startPage(pageNum,pageSize);
         List<CtQuestionnaires> list = questionnaireService.listAll();
+        PageInfo<CtQuestionnaires> info = new PageInfo<CtQuestionnaires>(list);
+
+        ModelAndView modelAndView = new ModelAndView("question");
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("total", info.getTotal());
+        modelAndView.addObject("pages", info.getPages());
+        modelAndView.addObject("pageNum", info.getPageNum());
+        return modelAndView;
+    }
+
+    @GetMapping("/view/search")
+    public Object searchView(@RequestParam String key ,@RequestParam(name = "pageNum", defaultValue = Constant.defaultPageNum) Integer pageNum,
+                           @RequestParam(name = "pageSize", defaultValue = Constant.defaultPageSize) Integer pageSize){
+        PageHelper.startPage(pageNum,pageSize);
+        List<CtQuestionnaires> list = questionnaireService.search(key);
         PageInfo<CtQuestionnaires> info = new PageInfo<CtQuestionnaires>(list);
 
         ModelAndView modelAndView = new ModelAndView("question");

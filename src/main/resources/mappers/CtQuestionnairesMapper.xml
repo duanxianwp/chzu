@@ -134,6 +134,13 @@
     from ct_questionnaires
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="search" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from ct_questionnaires
+    where del_flag=0
+    and `name` like concat(concat('%',#{keyWord}),'%')
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from ct_questionnaires
     where id = #{id,jdbcType=INTEGER}

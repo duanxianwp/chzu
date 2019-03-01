@@ -18,6 +18,8 @@ public interface CtQuestionnairesMapper {
 
     List<CtQuestionnaires> selectByExample(CtQuestionnairesExample example);
 
+    List<CtQuestionnaires> search(@Param("keyWord") String keyWord);
+
     List<CtQuestionnaires> selectQuestionnaireWithSubject(CtQuestionnaires questionnaires);
 
     CtQuestionnaires selectByPrimaryKey(Integer id);
