@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -124,10 +126,16 @@ public class StudentController extends BaseApiController {
                                  @RequestParam(name = "oldpassword") String oldpassword){
 
         CtStudents students = studentService.getById(id);
-        if(oldpassword.equals(students.getPassword())){
-            students.setPassword(password);
-            studentService.update(students);
+        if(students==null||students.getId()==null){
+            throw new ServiceException("用户信息不存在");
         }
+        if(!oldpassword.equals(students.getPassword())){
+            throw new ServiceException("原密码不正确");
+        }
+
+        students.setPassword(password);
+        students.setUpdateTime(new Date());
+        studentService.update(students);
 
         return ServiceParamHelper.createSuccessResultJSONObject();
     }
@@ -146,6 +154,23 @@ public class StudentController extends BaseApiController {
         responseData.put("pageNum", pageNum);
         return responseData;
     }
+
+    @GetMapping("/view/list")
+    public Object viewList(@RequestParam(name = "pageNum", defaultValue = Constant.defaultPageNum) Integer pageNum,
+                       @RequestParam(name = "pageSize", defaultValue = Constant.defaultPageSize) Integer pageSize){
+
+        PageHelper.startPage(pageNum, pageSize);
+        List<CtStudents> list = studentService.listAll();
+        PageInfo<CtStudents> info = new PageInfo<CtStudents>(list);
+
+        ModelAndView modelAndView = new ModelAndView("student");
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("total", info.getTotal());
+        modelAndView.addObject("pages", info.getPages());
+        modelAndView.addObject("pageNum", info.getPageNum());
+        return modelAndView;
+    }
+
 
     @PostMapping("/delete")
     public Object delete(@RequestParam(name = "id") Integer id){

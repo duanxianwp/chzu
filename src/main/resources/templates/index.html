@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="keywords" content="">
+		<meta name="description" content="">
+		<link rel="stylesheet" href="/res/layui/css/layui.css">
+		<link rel="stylesheet" href="/res/css/global.css">
+		<script src="/res/layui/layui.js"></script>
+	</head>
+
+	<body>
+		<div class="header">
+			<div class="main">
+				<a href="/index" style="margin-left: 30px;line-height: 65px; color: white;font-size: 18px;">高校人才管理</a>
+				<div class="nav">
+				</div>
+			</div>
+		</div>
+
+		<div class="main fly-user-main layui-clear">
+			<ul class="layui-nav layui-nav-tree layui-inline" lay-filter="user">
+				<li class="layui-nav-item layui-this">
+					<a href="/index"> <i class="layui-icon">&#xe609;</i> 首页 </a>
+				</li>
+
+				<li class="layui-nav-item ">
+					<a href="/students/view/list" target="right"> <i class="layui-icon">&#xe614;</i> 学生信息管理</a>
+				</li>
+
+				<li class="layui-nav-item ">
+					<a href="/company/view/list" target="right"> <i class="layui-icon">&#xe614;</i> 企业信息管理</a>
+				</li>
+				
+				<li class="layui-nav-item ">
+					<a href="question.html" target="right"> <i class="layui-icon">&#xe614;</i> 问卷信息管理</a>
+				</li>
+				
+				<li class="layui-nav-item ">
+					<a href="business.html" target="right"> <i class="layui-icon">&#xe614;</i> 数据关联分析</a>
+				</li>
+				<li class="layui-nav-item ">
+					<a href="/logout.do" target="right"> <i class="layui-icon">&#xe614;</i> 安全退出</a>
+				</li>
+			</ul>
+
+			<div class="site-tree-mobile layui-hide">
+				<i class="layui-icon">&#xe602;</i>
+			</div>
+			<div class="site-mobile-shade"></div>
+
+			<div class="fly-panel fly-panel-user">
+				<div class="layui-tab layui-tab-brief" lay-filter="user">
+
+					<div class="layui-tab-content" style="padding: 20px;padding-top: 0px;">
+
+						<iframe src="/index_body" width="88%" style="border: none;" height="800" border="none" name="right"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="/myplugs/js/plugs.js"></script>
+		[
+		<script>
+			layui.use('element', function() {
+				var element = layui.element();
+			});
+		</script>
+	</body>
+
+</html>

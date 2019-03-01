@@ -1,6 +1,7 @@
 package cn.edu.chzu.collegetalent.controller;
 
 import cn.edu.chzu.collegetalent.constant.Constant;
+import cn.edu.chzu.collegetalent.exception.ServiceException;
 import cn.edu.chzu.collegetalent.helper.ServiceParamHelper;
 import cn.edu.chzu.collegetalent.model.CtCompany;
 import cn.edu.chzu.collegetalent.service.CompanyService;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -93,11 +96,19 @@ public class CompanyController extends BaseApiController{
 
     @PostMapping("/updatePassword")
     public Object updatePassword(@RequestParam(name = "id") Integer id,
-                         @RequestParam(name = "password") String password){
+                                 @RequestParam(name = "password") String password,
+                                 @RequestParam(name = "oldpassword") String oldpassword){
         JSONObject responseData = ServiceParamHelper.createSuccessResultJSONObject();
-        CtCompany company = new CtCompany();
-        company.setId(id);
+
+        CtCompany company = companyService.get(id);
+        if(company==null||company.getId()==null){
+            throw new ServiceException("用户不存在");
+        }
+        if(!oldpassword.equals(company.getPassword())){
+            throw new ServiceException("原密码不正确");
+        }
         company.setPassword(password);
+        company.setUpdateTime(new Date());
         companyService.update(company);
         return responseData;
     }
@@ -124,6 +135,22 @@ public class CompanyController extends BaseApiController{
         responseData.put("totalPage", info.getPages());
         responseData.put("pageNum", pageNum);
         return responseData;
+    }
+
+    @GetMapping("/view/list")
+    public Object listView(@RequestParam(name = "pageNum", defaultValue = Constant.defaultPageNum) Integer pageNum,
+                       @RequestParam(name = "pageSize", defaultValue = Constant.defaultPageSize) Integer pageSize){
+
+        PageHelper.startPage(pageNum, pageSize);
+        List<CtCompany> list = companyService.listAll();
+        PageInfo<CtCompany> info = new PageInfo<CtCompany>(list);
+
+        ModelAndView modelAndView = new ModelAndView("company");
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("total", info.getTotal());
+        modelAndView.addObject("pages", info.getPages());
+        modelAndView.addObject("pageNum", info.getPageNum());
+        return modelAndView;
     }
 
     @PostMapping("/delete")
