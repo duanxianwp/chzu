@@ -18,6 +18,8 @@ public interface CtCompanyMapper {
 
     List<CtCompany> selectByExample(CtCompanyExample example);
 
+    List<CtCompany> search(@Param("keyWord") String keyWord);
+
     CtCompany selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") CtCompany record, @Param("example") CtCompanyExample example);

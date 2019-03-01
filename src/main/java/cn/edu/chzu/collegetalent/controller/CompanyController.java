@@ -2,6 +2,7 @@ package cn.edu.chzu.collegetalent.controller;
 
 import cn.edu.chzu.collegetalent.constant.Constant;
 import cn.edu.chzu.collegetalent.exception.ServiceException;
+import cn.edu.chzu.collegetalent.helper.EncryptHelper;
 import cn.edu.chzu.collegetalent.helper.ServiceParamHelper;
 import cn.edu.chzu.collegetalent.model.CtCompany;
 import cn.edu.chzu.collegetalent.service.CompanyService;
@@ -11,10 +12,7 @@ import com.github.pagehelper.PageInfo;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
@@ -68,6 +66,38 @@ public class CompanyController extends BaseApiController{
         return responseData;
     }
 
+    @PostMapping("/pc/add")
+    public Object pcAdd(@RequestParam(name = "name") String name,
+                        @RequestParam(name = "password") String password,
+                        @RequestParam(name = "contact") String contact,
+                        @RequestParam(name = "address") String address,
+                        @RequestParam(name = "phone") String phone,
+                        @RequestParam(name = "email") String email,
+                        @RequestParam(name = "serviceTrade") String serviceTrade){
+        CtCompany company = new CtCompany();
+        company.setName(name);
+        company.setPassword(EncryptHelper.MD5(password));
+        company.setContact(contact);
+        company.setAddress(address);
+        company.setPhone(phone);
+        company.setEmail(email);
+        company.setServiceTrade(serviceTrade);
+
+        companyService.add(company);
+
+        PageHelper.startPage(1, 10);
+        List<CtCompany> list = companyService.listAll();
+        PageInfo<CtCompany> info = new PageInfo<CtCompany>(list);
+
+        ModelAndView modelAndView = new ModelAndView("company");
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("total", info.getTotal());
+        modelAndView.addObject("pages", info.getPages());
+        modelAndView.addObject("pageNum", info.getPageNum());
+        return modelAndView;
+    }
+
+
     @PostMapping("/update")
     public Object update(@RequestParam(name = "id") Integer id,
                          @RequestParam(name = "name") String name,
@@ -92,6 +122,50 @@ public class CompanyController extends BaseApiController{
         companyService.update(company);
 
         return responseData;
+    }
+
+    @GetMapping("/pc/edit")
+    public Object pcEdit(@RequestParam(name = "id") Integer id){
+        CtCompany company = companyService.get(id);
+        ModelAndView modelAndView = new ModelAndView("company_edit");
+        modelAndView.addObject("company", company);
+        return modelAndView;
+    }
+
+    @PostMapping("/pc/edit.do")
+    public Object pcEditDo(@RequestParam(name = "id") Integer id,
+                           @RequestParam(name = "name") String name,
+                           @RequestParam(name = "password") String password,
+                           @RequestParam(name = "contact") String contact,
+                           @RequestParam(name = "address") String address,
+                           @RequestParam(name = "phone") String phone,
+                           @RequestParam(name = "email") String email,
+                           @RequestParam(name = "serviceTrade") String serviceTrade){
+
+        CtCompany company = companyService.get(id);
+        if(!password.equals(company.getPassword())&&!EncryptHelper.MD5(password).equals(company.getPassword())){
+            company.setPassword(EncryptHelper.MD5(password));
+        }
+        company.setId(id);
+        company.setName(name);
+        company.setContact(contact);
+        company.setAddress(address);
+        company.setPhone(phone);
+        company.setEmail(email);
+        company.setServiceTrade(serviceTrade);
+
+        companyService.update(company);
+
+        PageHelper.startPage(1, 10);
+        List<CtCompany> list = companyService.listAll();
+        PageInfo<CtCompany> info = new PageInfo<CtCompany>(list);
+
+        ModelAndView modelAndView = new ModelAndView("company");
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("total", info.getTotal());
+        modelAndView.addObject("pages", info.getPages());
+        modelAndView.addObject("pageNum", info.getPageNum());
+        return modelAndView;
     }
 
     @PostMapping("/updatePassword")
@@ -137,9 +211,25 @@ public class CompanyController extends BaseApiController{
         return responseData;
     }
 
+    @GetMapping("/view/search")
+    public Object viewSearch(@RequestParam String key,
+                             @RequestParam(name = "pageNum", defaultValue = Constant.defaultPageNum) Integer pageNum,
+                             @RequestParam(name = "pageSize", defaultValue = Constant.defaultPageSize) Integer pageSize){
+        PageHelper.startPage(pageNum, pageSize);
+        List<CtCompany> list = companyService.search(key);
+        PageInfo<CtCompany> info = new PageInfo<CtCompany>(list);
+
+        ModelAndView modelAndView = new ModelAndView("company");
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("total", info.getTotal());
+        modelAndView.addObject("pages", info.getPages());
+        modelAndView.addObject("pageNum", info.getPageNum());
+        return modelAndView;
+    }
+
     @GetMapping("/view/list")
     public Object listView(@RequestParam(name = "pageNum", defaultValue = Constant.defaultPageNum) Integer pageNum,
-                       @RequestParam(name = "pageSize", defaultValue = Constant.defaultPageSize) Integer pageSize){
+                           @RequestParam(name = "pageSize", defaultValue = Constant.defaultPageSize) Integer pageSize){
 
         PageHelper.startPage(pageNum, pageSize);
         List<CtCompany> list = companyService.listAll();
@@ -153,14 +243,23 @@ public class CompanyController extends BaseApiController{
         return modelAndView;
     }
 
-    @PostMapping("/delete")
+    @RequestMapping(value = "/pc/del",method = {RequestMethod.GET,RequestMethod.POST})
     public Object delete(@RequestParam(name = "id") Integer id){
-        JSONObject responseData = ServiceParamHelper.createSuccessResultJSONObject();
         CtCompany company = new CtCompany();
         company.setId(id);
         company.setDelFlag(Constant.DelFlag.DEL);
         companyService.update(company);
-        return responseData;
+
+        PageHelper.startPage(1, 10);
+        List<CtCompany> list = companyService.listAll();
+        PageInfo<CtCompany> info = new PageInfo<CtCompany>(list);
+
+        ModelAndView modelAndView = new ModelAndView("company");
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("total", info.getTotal());
+        modelAndView.addObject("pages", info.getPages());
+        modelAndView.addObject("pageNum", info.getPageNum());
+        return modelAndView;
     }
 
 

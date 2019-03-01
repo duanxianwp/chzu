@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
 import java.util.List;
@@ -67,6 +68,23 @@ public class QuestionnaireController extends BaseApiController {
         responseData.put("pageNum", pageNum);
 
         return responseData;
+    }
+
+    @GetMapping("/view/list")
+    public Object listView(@RequestParam(name = "pageNum", defaultValue = Constant.defaultPageNum) Integer pageNum,
+                       @RequestParam(name = "pageSize", defaultValue = Constant.defaultPageSize) Integer pageSize){
+        JSONObject responseData = ServiceParamHelper.createSuccessResultJSONObject();
+
+        PageHelper.startPage(pageNum,pageSize);
+        List<CtQuestionnaires> list = questionnaireService.listAll();
+        PageInfo<CtQuestionnaires> info = new PageInfo<CtQuestionnaires>(list);
+
+        ModelAndView modelAndView = new ModelAndView("question");
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("total", info.getTotal());
+        modelAndView.addObject("pages", info.getPages());
+        modelAndView.addObject("pageNum", info.getPageNum());
+        return modelAndView;
     }
 
     @GetMapping("/listWithSubject")

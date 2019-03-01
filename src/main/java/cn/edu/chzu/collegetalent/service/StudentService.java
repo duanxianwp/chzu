@@ -44,4 +44,8 @@ public class StudentService {
         return studentsMapper.selectByExample(example);
     }
 
+    public List<CtStudents> search(String key){
+        return studentsMapper.search(key);
+    }
+
 }

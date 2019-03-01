@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="/res/css/amazeui.min.css" />
+		<link rel="stylesheet" href="/res/css/admin.css" />
+	</head>
+
+	<body>
+		<div class="admin-content-body">
+			<div class="am-cf am-padding am-padding-bottom-0">
+				<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">添加企业信息</strong><small></small></div>
+			</div>
+			<hr>
+			<div class="am-g">
+				<div class="am-u-sm-12">
+					<form class="am-form" action="/company/pc/add" method="post">
+						<table class="am-table am-table-striped am-table-hover table-main">
+							<tbody>
+								<tr>
+									<td>名称</td>
+									<td><input type="text" name="name" id="name" placeholder="请输入名称" /></td>
+								</tr>
+								<tr>
+									<td>联系人</td>
+									<td><input type="text" name="contact" id="contact" placeholder="请输入联系人" /></td>
+								</tr>
+								<tr>
+									<td>电话</td>
+									<td><input type="text" name="phone" id="phone" placeholder="请输入联系电话" /></td>
+								</tr>
+								<tr>
+									<td>行业</td>
+									<td><input type="text" name="serviceTrade" id="serviceTrade" placeholder="请输入公司服务行业" /></td>
+								</tr>
+								<tr>
+									<td>地址</td>
+									<td><input type="text" name="address" id="address" placeholder="请输入联系地址" /></td>
+								</tr>
+								<tr>
+									<td>邮箱</td>
+									<td><input type="email" name="email" id="email" placeholder="请输入邮箱地址" /></td>
+								</tr>
+								<tr>
+									<td>密码</td>
+									<td><input type="password" name="password" id="password" placeholder="请输入登录密码" /></td>
+								</tr>
+							</tbody>
+						</table>
+						<button type="submit" class="am-btn am-btn-success" >提交</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

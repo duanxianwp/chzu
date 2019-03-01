@@ -53,4 +53,8 @@ public class CompanyService {
         return companyMapper.selectByExample(example);
     }
 
+    public List<CtCompany> search(String keyWord){
+        return companyMapper.search(keyWord);
+    }
+
 }

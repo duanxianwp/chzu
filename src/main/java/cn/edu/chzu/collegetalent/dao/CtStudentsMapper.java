@@ -18,6 +18,8 @@ public interface CtStudentsMapper {
 
     List<CtStudents> selectByExample(CtStudentsExample example);
 
+    List<CtStudents> search(@Param("keyWord") String keyWord);
+
     CtStudents selectByPrimaryKey(Integer id);
 
     CtStudents getByEmailAndPassword(@Param("email") String email, @Param("password") String password);

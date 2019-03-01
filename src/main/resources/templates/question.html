@@ -1,168 +1,89 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="/res/css/amazeui.min.css" />
+	<link rel="stylesheet" href="/res/css/admin.css" />
+</head>
 
-		<link rel="stylesheet" href="/res/css/amazeui.min.css">
-		<link rel="stylesheet" href="/res/css/admin.css">
-		<link rel="stylesheet" href="/res/css/app.css">
-	</head>
+<body>
+<div class="admin-content-body">
+	<div class="am-cf am-padding am-padding-bottom-0">
+		<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">问卷列表</strong><small></small></div>
+	</div>
 
-	<body>
+	<hr>
 
-		<div class="admin-content-body">
-			<div class="am-cf am-padding am-padding-bottom-0">
-				<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">打印提供商列表</strong><small></small></div>
+	<div class="am-g">
+		<div class="am-u-sm-12 am-u-md-6">
+			<div class="am-btn-toolbar">
+				<div class="am-btn-group am-btn-group-xs">
+					<button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+				</div>
 			</div>
+		</div>
+		<div class="am-u-sm-12 am-u-md-3">
 
-			<hr>
+		</div>
+		<div class="am-u-sm-12 am-u-md-3">
+			<div class="am-input-group am-input-group-sm">
+				<input type="text" class="am-form-field">
+				<span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="button">搜索</button>
+          </span>
+			</div>
+		</div>
+	</div>
+	<div class="am-g">
+		<div class="am-u-sm-12">
+			<form class="am-form">
+				<table class="am-table am-table-striped am-table-hover table-main">
+					<thead>
+					<tr>
+						<th class="table-title">名称</th>
+						<th class="table-type">类型</th>
+						<th class="table-author am-hide-sm-only">结束时间</th>
+						<th class="table-author am-hide-sm-only">创建时间</th>
+						<th class="table-author am-hide-sm-only">更新时间</th>
+						<th class="table-set">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr th:each="item : ${ list }">
+						<td th:text="${item.name}"></td>
+						<td th:text="${item.type}"></td>
+						<td th:text="${#dates.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+						<td th:text="${#dates.format(item.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+						<td th:text="${#dates.format(item.updateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+						<td>
+							<div class="am-btn-toolbar">
+								<div class="am-btn-group am-btn-group-xs">
+									<button class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="am-icon-pencil-square-o"></span> 编辑信息</button>
+									<button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除信息</button>
+								</div>
+							</div>
+						</td>
+					</tr>
 
-			<div class="am-g">
-				<div class="am-u-sm-12 am-u-md-3">
-					<div class="am-input-group am-input-group-sm">
-						<input id="roleName" class="am-form-field" placeholder="请输入搜索关键字" type="text">
-						<span class="am-input-group-btn">
-									<button class="am-btn am-btn-default" type="button" id="btnsearch">
-										搜索
-									</button> 
-						</span>
+					</tbody>
+				</table>
+				<div class="am-cf">
+					共 <span th:text="${total}"></span> 条记录
+					<div class="am-fr">
+						<ul class="am-pagination" th:if="${pages>1}">
+							<li><a th:href="${ pageNum-1<1 ? '/questionnaire/view/list?pageNum='+1 : '/questionnaire/view/list?pageNum='+ (pageNum-1) }">&laquo;</a></li>
+							<li th:each="i : ${ #numbers.sequence(1,pages) }" th:class="${ i==pageNum ? 'am-active':'' }"><a th:href="${'/questionnaire/view/list?pageNum='+i}" th:text="${i}"></a></li>
+							<li><a th:href="${ pageNum+1 > total ? '/questionnaire/view/list?pageNum=' + total : '/questionnaire/view/list?pageNum=' + (pageNum+1) }">&raquo;</a></li>
+						</ul>
 					</div>
 				</div>
-			</div>
-
-			<div class="am-g" style="margin-top: 5px;">
-				<div class="am-u-sm-12">
-					<form class="am-form">
-						<table class="am-table am-table-striped am-table-hover table-main">
-							<thead>
-								<tr>
-									<th>
-										商家名称
-									</th>
-									<th class="table-title">
-										位置
-									</th>
-								</tr>
-							</thead>
-							<tbody id="tUser">
-									<tr>
-										<td>
-											<a href="javascript:void(0)">江苏科技大学一号打印店</a>
-										</td>
-										<td>江科大一食堂对门</td>
-									</tr>
-									<tr>
-										<td>
-											<a href="javascript:void(0)">江苏科技大学二号打印店</a>
-										</td>
-										<td>江科大教研楼一楼103</td>
-									</tr>
-									<tr>
-										<td>
-											<a href="javascript:void(0)">江苏科技大学三号打印店</a>
-										</td>
-										<td>江科大C11对门</td>
-									</tr>
-									<tr>
-										<td>
-											<a href="javascript:void(0)">江苏科技大学一号打印店</a>
-										</td>
-										<td>江科大一食堂对门</td>
-									</tr>
-									<tr>
-										<td>
-											<a href="javascript:void(0)">江苏科技大学二号打印店</a>
-										</td>
-										<td>江科大教研楼一楼103</td>
-									</tr>
-									<tr>
-										<td>
-											<a href="javascript:void(0)">江苏科技大学三号打印店</a>
-										</td>
-										<td>江科大C11对门</td>
-									</tr>
-									<tr>
-										<td>
-											<a href="javascript:void(0)">江苏科技大学一号打印店</a>
-										</td>
-										<td>江科大一食堂对门</td>
-									</tr>
-									<tr>
-										<td>
-											<a href="javascript:void(0)">江苏科技大学二号打印店</a>
-										</td>
-										<td>江科大教研楼一楼103</td>
-									</tr>
-									<tr>
-										<td>
-											<a href="javascript:void(0)">江苏科技大学三号打印店</a>
-										</td>
-										<td>江科大C11对门</td>
-									</tr>
-									<tr>
-										<td>
-											<a href="javascript:void(0)">江苏科技大学一号打印店</a>
-										</td>
-										<td>江科大一食堂对门</td>
-									</tr>
-									<tr>
-										<td>
-											<a href="javascript:void(0)">江苏科技大学二号打印店</a>
-										</td>
-										<td>江科大教研楼一楼103</td>
-									</tr>
-									<tr>
-										<td>
-											<a href="javascript:void(0)">江苏科技大学三号打印店</a>
-										</td>
-										<td>江科大C11对门</td>
-									</tr>
-
-							</tbody>
-						</table>
-
-					</form>
-				</div>
-			</div>
+				<hr>
+			</form>
 		</div>
-
-		</div>
-		<!-- content end -->
-		</div>
-		</div>
-
-		<!--[if (gte IE 9)|!(IE)]><!-->
-		<script src="js/jquery-1.11.3.min.js"></script>
-		<!--<![endif]-->
-		<script type="text/javascript" src="myplugs/js/plugs.js"></script>
-		<script>
-			$(function() {
-
-				$(".btnedit").click(function() {
-
-					$.jq_Panel({
-						title: "修改类型",
-						iframeWidth: 500,
-						iframeHeight: 300,
-						url: "http://www.17sucai.com/preview/81082/2018-04-30/ht/editRole.html"
-					});
-				});
-
-				$(".btnAdd").click(function() {
-
-					$.jq_Panel({
-						title: "添加类型",
-						iframeWidth: 500,
-						iframeHeight: 300,
-						url: "edit.html"
-					});
-
-				});
-			});
-
-		</script>
-	</body>
+	</div>
+</div>
+</body>
 
 </html>

@@ -12,7 +12,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @auther: chzu
@@ -52,6 +59,20 @@ public class LoginController extends BaseApiController{
         }
 
         return responseData;
+    }
+
+    @RequestMapping(value = "/logout.do", method = RequestMethod.GET)
+    public Object logout(HttpServletRequest request, HttpServletResponse response){
+        try {
+            request.logout();
+            request.getSession().invalidate();
+            response.sendRedirect("/login");
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 }

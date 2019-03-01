@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="/res/css/amazeui.min.css" />
+		<link rel="stylesheet" href="/res/css/admin.css" />
+	</head>
+
+	<body>
+		<div class="admin-content-body">
+			<div class="am-cf am-padding am-padding-bottom-0">
+				<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">修改学生信息</strong><small></small></div>
+			</div>
+			<hr>
+			<div class="am-g">
+				<div class="am-u-sm-12">
+					<form class="am-form" action="/students/pc/edit.do" method="post">
+						<input type="hidden" name="id" th:value="${student.id}">
+						<table class="am-table am-table-striped am-table-hover table-main">
+							<tbody>
+								<tr>
+									<td>姓名</td>
+									<td><input type="text" name="name" id="name" th:value="${student.name}" /></td>
+								</tr>
+								<tr>
+									<td>性别</td>
+									<td><input type="radio" name="sex" value="男" th:attr="checked=${student.sex=='男'?true:false}"/>男&nbsp;&nbsp;&nbsp;<input type="radio" name="sex" value="女" th:attr="checked=${student.sex!='男'?true:false}" />女</td>
+								</tr>
+								<tr>
+									<td>年级</td>
+									<td><input type="text" name="grade" id="grade" th:value="${student.grade}" /></td>
+								</tr>
+								<tr>
+									<td>专业</td>
+									<td><input type="text" name="major" id="major" th:value="${student.major}" /></td>
+								</tr>
+								<tr>
+									<td>是否就业</td>
+									<td><input type="radio" name="employment" value="1" th:attr="checked=${student.employment==1?true:false}"/>已就业&nbsp;&nbsp;&nbsp;<input type="radio" name="employment" value="0" th:attr="checked=${student.employment!=1?true:false}" />未就业</td>
+								</tr>
+								<tr>
+									<td>公司</td>
+									<td><input type="text" name="employmentCompany" id="employmentCompany" th:value="${student.employmentCompany}" /></td>
+								</tr>
+								<tr>
+									<td>所在城市</td>
+									<td><input type="text" name="employmentCity" id="employmentCity" th:value="${student.employmentCity}" /></td>
+								</tr>
+								<tr>
+									<td>电话</td>
+									<td><input type="text" name="phone" id="phone" th:value="${student.phone}" /></td>
+								</tr>
+								<tr>
+									<td>微信</td>
+									<td><input type="text" name="wechat" id="wechat" th:value="${student.wechat}" /></td>
+								</tr>
+								<tr>
+									<td>QQ</td>
+									<td><input type="text" name="qq" id="qq" th:value="${student.qq}" /></td>
+								</tr>
+								<tr>
+									<td>邮箱</td>
+									<td><input type="text" name="email" id="email" th:value="${student.email}" /></td>
+								</tr>
+								<tr>
+									<td>密码</td>
+									<td><input type="password" name="password" id="password" th:value="${student.password}" /></td>
+								</tr>
+							</tbody>
+						</table>
+						<button type="submit" class="am-btn am-btn-success" >提交</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

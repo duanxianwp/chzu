@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="/res/css/amazeui.min.css" />
+		<link rel="stylesheet" href="/res/css/admin.css" />
+	</head>
+
+	<body>
+		<div class="admin-content-body">
+			<div class="am-cf am-padding am-padding-bottom-0">
+				<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">修改企业信息</strong><small></small></div>
+			</div>
+			<hr>
+			<div class="am-g">
+				<div class="am-u-sm-12">
+					<form class="am-form" action="/company/pc/edit.do" method="post">
+						<input type="hidden" name="id" th:value="${company.id}">
+						<table class="am-table am-table-striped am-table-hover table-main">
+							<tbody>
+								<tr>
+									<td>名称</td>
+									<td><input type="text" name="name" id="name" th:value="${company.name}" /></td>
+								</tr>
+								<tr>
+									<td>联系人</td>
+									<td><input type="text" name="contact" id="contact" th:value="${company.contact}" /></td>
+								</tr>
+								<tr>
+									<td>电话</td>
+									<td><input type="text" name="phone" id="phone" th:value="${company.phone}" /></td>
+								</tr>
+								<tr>
+									<td>行业</td>
+									<td><input type="text" name="serviceTrade" id="serviceTrade" th:value="${company.serviceTrade}" /></td>
+								</tr>
+								<tr>
+									<td>地址</td>
+									<td><input type="text" name="address" id="address" th:value="${company.address}" /></td>
+								</tr>
+								<tr>
+									<td>邮箱</td>
+									<td><input type="email" name="email" id="email" th:value="${company.email}" /></td>
+								</tr>
+								<tr>
+									<td>密码</td>
+									<td><input type="password" name="password" id="password" th:value="${company.password}" /></td>
+								</tr>
+							</tbody>
+						</table>
+						<button type="submit" class="am-btn am-btn-success" >提交</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

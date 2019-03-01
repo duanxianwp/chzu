@@ -2,6 +2,7 @@ package cn.edu.chzu.collegetalent.controller;
 
 import cn.edu.chzu.collegetalent.constant.Constant;
 import cn.edu.chzu.collegetalent.exception.ServiceException;
+import cn.edu.chzu.collegetalent.helper.EncryptHelper;
 import cn.edu.chzu.collegetalent.helper.ServiceParamHelper;
 import cn.edu.chzu.collegetalent.model.CtStudents;
 import cn.edu.chzu.collegetalent.service.StudentService;
@@ -12,10 +13,7 @@ import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
@@ -120,6 +118,97 @@ public class StudentController extends BaseApiController {
         return ServiceParamHelper.createSuccessResultJSONObject();
     }
 
+    @GetMapping("/pc/edit")
+    public Object pcEdit(@RequestParam(name = "id") Integer id){
+        CtStudents students = studentService.getById(id);
+        ModelAndView modelAndView = new ModelAndView("student_edit");
+        modelAndView.addObject("student", students);
+        return modelAndView;
+    }
+
+    @PostMapping("/pc/edit.do")
+    public Object pcEditDo(@RequestParam(name = "id") Integer id,
+                           @RequestParam(name = "sex") String sex,
+                           @RequestParam(name = "password") String password,
+                           @RequestParam(name = "grade") String grade,
+                           @RequestParam(name = "major") String major,
+                           @RequestParam(name = "employment") Integer employment,
+                           @RequestParam(name = "employmentCompany", required = false, defaultValue = "") String employmentCompany,
+                           @RequestParam(name = "employmentCity", required = false, defaultValue = "") String employmentCity,
+                           @RequestParam(name = "phone") String phone,
+                           @RequestParam(name = "wechat", required = false, defaultValue = "") String wechat,
+                           @RequestParam(name = "qq", required = false, defaultValue = "") String qq){
+        CtStudents students = studentService.getById(id);
+        if(!password.equals(students.getPassword())&&!EncryptHelper.MD5(password).equals(students.getPassword())){
+            students.setPassword(EncryptHelper.MD5(password));
+        }
+        students.setSex(sex);
+        students.setGrade(grade);
+        students.setMajor(major);
+        students.setEmployment(employment);
+        students.setEmploymentCompany(employmentCompany);
+        students.setEmploymentCity(employmentCity);
+        students.setPhone(phone);
+        students.setWechat(wechat);
+        students.setQq(qq);
+
+        studentService.update(students);
+
+        PageHelper.startPage(1, 10);
+        List<CtStudents> list = studentService.listAll();
+        PageInfo<CtStudents> info = new PageInfo<CtStudents>(list);
+
+        ModelAndView modelAndView = new ModelAndView("student");
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("total", info.getTotal());
+        modelAndView.addObject("pages", info.getPages());
+        modelAndView.addObject("pageNum", info.getPageNum());
+        return modelAndView;
+    }
+
+    @PostMapping("/pc/add")
+    public Object pcAdd(@RequestParam(name = "name") String name,
+                        @RequestParam(name = "sex") String sex,
+                        @RequestParam(name = "grade") String grade,
+                        @RequestParam(name = "major") String major,
+                        @RequestParam(name = "employment") Integer employment,
+                        @RequestParam(name = "employmentCompany", required = false, defaultValue = "") String employmentCompany,
+                        @RequestParam(name = "employmentCity", required = false, defaultValue = "") String employmentCity,
+                        @RequestParam(name = "phone") String phone,
+                        @RequestParam(name = "wechat", required = false, defaultValue = "") String wechat,
+                        @RequestParam(name = "qq", required = false, defaultValue = "") String qq,
+                        @RequestParam(name = "email") String email,
+                        @RequestParam(name = "password") String password){
+        CtStudents students = new CtStudents();
+        students.setName(name);
+        students.setSex(sex);
+        students.setGrade(grade);
+        students.setMajor(major);
+        students.setEmployment(employment);
+        students.setEmploymentCompany(employmentCompany);
+        students.setEmploymentCity(employmentCity);
+        students.setPhone(phone);
+        students.setWechat(wechat);
+        students.setQq(qq);
+        students.setEmail(email);
+        students.setPassword(EncryptHelper.MD5(password));
+        students.setCreateTime(new Date());
+        students.setUpdateTime(new Date());
+
+        studentService.add(students);
+
+        PageHelper.startPage(1, 10);
+        List<CtStudents> list = studentService.listAll();
+        PageInfo<CtStudents> info = new PageInfo<CtStudents>(list);
+
+        ModelAndView modelAndView = new ModelAndView("student");
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("total", info.getTotal());
+        modelAndView.addObject("pages", info.getPages());
+        modelAndView.addObject("pageNum", info.getPageNum());
+        return modelAndView;
+    }
+
     @PostMapping("/updatePassword")
     public Object updatePassword(@RequestParam(name = "id") Integer id,
                                  @RequestParam(name = "password") String password,
@@ -157,7 +246,7 @@ public class StudentController extends BaseApiController {
 
     @GetMapping("/view/list")
     public Object viewList(@RequestParam(name = "pageNum", defaultValue = Constant.defaultPageNum) Integer pageNum,
-                       @RequestParam(name = "pageSize", defaultValue = Constant.defaultPageSize) Integer pageSize){
+                           @RequestParam(name = "pageSize", defaultValue = Constant.defaultPageSize) Integer pageSize){
 
         PageHelper.startPage(pageNum, pageSize);
         List<CtStudents> list = studentService.listAll();
@@ -171,14 +260,41 @@ public class StudentController extends BaseApiController {
         return modelAndView;
     }
 
+    @GetMapping("/view/search")
+    public Object viewSearch(@RequestParam String key,
+                             @RequestParam(name = "pageNum", defaultValue = Constant.defaultPageNum) Integer pageNum,
+                             @RequestParam(name = "pageSize", defaultValue = Constant.defaultPageSize) Integer pageSize){
 
-    @PostMapping("/delete")
+        PageHelper.startPage(pageNum, pageSize);
+        List<CtStudents> list = studentService.search(key);
+        PageInfo<CtStudents> info = new PageInfo<CtStudents>(list);
+
+        ModelAndView modelAndView = new ModelAndView("student");
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("total", info.getTotal());
+        modelAndView.addObject("pages", info.getPages());
+        modelAndView.addObject("pageNum", info.getPageNum());
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/pc/del", method = {RequestMethod.GET, RequestMethod.POST})
     public Object delete(@RequestParam(name = "id") Integer id){
         CtStudents students = new CtStudents();
         students.setId(id);
         students.setDelFlag(Constant.DelFlag.DEL);
         studentService.update(students);
-        return ServiceParamHelper.createSuccessResultJSONObject();
+
+        PageHelper.startPage(1, 20);
+        List<CtStudents> list = studentService.listAll();
+        PageInfo<CtStudents> info = new PageInfo<CtStudents>(list);
+
+        ModelAndView modelAndView = new ModelAndView("student");
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("total", info.getTotal());
+        modelAndView.addObject("pages", info.getPages());
+        modelAndView.addObject("pageNum", info.getPageNum());
+        return modelAndView;
     }
 
 }
