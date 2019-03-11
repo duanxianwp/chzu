@@ -101,7 +101,6 @@ public class CompanyController extends BaseApiController{
     @PostMapping("/update")
     public Object update(@RequestParam(name = "id") Integer id,
                          @RequestParam(name = "name") String name,
-                         @RequestParam(name = "password") String password,
                          @RequestParam(name = "contact") String contact,
                          @RequestParam(name = "address") String address,
                          @RequestParam(name = "phone") String phone,
@@ -112,7 +111,6 @@ public class CompanyController extends BaseApiController{
         CtCompany company = new CtCompany();
         company.setId(id);
         company.setName(name);
-        company.setPassword(password);
         company.setContact(contact);
         company.setAddress(address);
         company.setPhone(phone);

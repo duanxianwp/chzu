@@ -1,5 +1,7 @@
 package cn.edu.chzu.collegetalent.model;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,6 +17,8 @@ public class CtSubject implements Serializable {
     private String type;
 
     private String option;
+
+    private JSONObject optionJson;
 
     private Integer delFlag;
 
@@ -70,6 +74,15 @@ public class CtSubject implements Serializable {
 
     public void setOption(String option) {
         this.option = option == null ? null : option.trim();
+        this.optionJson = JSONObject.parseObject(option);
+    }
+
+    public void setOptionJson(String option){
+        this.optionJson = JSONObject.parseObject(option);
+    }
+
+    public JSONObject getOptionJson(){
+        return optionJson;
     }
 
     public Integer getDelFlag() {
