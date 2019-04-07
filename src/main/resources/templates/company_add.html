@@ -16,7 +16,7 @@
 			<hr>
 			<div class="am-g">
 				<div class="am-u-sm-12">
-					<form class="am-form" action="/company/pc/add" method="post">
+					<form class="am-form" action="/company/pc/add" onsubmit="return checkData()" method="post">
 						<table class="am-table am-table-striped am-table-hover table-main">
 							<tbody>
 								<tr>
@@ -55,5 +55,50 @@
 			</div>
 		</div>
 	</body>
+	<script>
+		function checkData() {
+			var name = document.getElementById("name").value;
+			var contact = document.getElementById("contact").value;
+			var phone = document.getElementById("phone").value;
+			var serviceTrade = document.getElementById("serviceTrade").value;
+			var address = document.getElementById("address").value;
+			var email = document.getElementById("email").value;
+			var password = document.getElementById("password").value;
 
+			if(name==null||name==''||name.trim().length==0){
+				alert("名称不能为空");
+				return false;
+			}
+			if(contact==null||contact==''||contact.trim().length==0){
+				alert("联系人不能为空");
+				return false;
+			}
+			if(phone==null||phone==''||phone.trim().length==0||phone.trim().length<11){
+				alert("联系电话格式有误，请重新输入！");
+				return false;
+			}
+			if(serviceTrade==null||serviceTrade==''||serviceTrade.trim().length==0){
+				alert("服务行业不能为空");
+				return false;
+			}
+			if(address==null||address==''||address.trim().length==0){
+				alert("联系地址不能为空");
+				return false;
+			}
+			if(email==null||email==''||email.trim().length==0){
+				alert("邮箱地址不能为空");
+				return false;
+			}
+			if(password==null||password==''||password.trim().length==0){
+				alert("密码不能为空");
+				return false;
+			}
+			if(password.length<6){
+				alert("密码长度不能小于6位！");
+				return false;
+			}
+
+			return true;
+		}
+	</script>
 </html>

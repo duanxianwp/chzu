@@ -16,7 +16,7 @@
 			<hr>
 			<div class="am-g">
 				<div class="am-u-sm-12">
-					<form class="am-form" action="/students/pc/add" method="post">
+					<form class="am-form" action="/students/pc/add" onsubmit="return checkData()" method="post">
 						<table class="am-table am-table-striped am-table-hover table-main">
 							<tbody>
 								<tr>
@@ -41,11 +41,11 @@
 								</tr>
 								<tr>
 									<td>公司</td>
-									<td><input type="text" name="employmentCompany" id="employmentCompany" placeholder="请输入就业公司名称" /></td>
+									<td><input type="text" name="employmentCompany" id="employmentCompany" placeholder="请输入就业公司名称，未就业填无" /></td>
 								</tr>
 								<tr>
 									<td>所在城市</td>
-									<td><input type="text" name="employmentCity" id="employmentCity" placeholder="请输入公司所在城市" /></td>
+									<td><input type="text" name="employmentCity" id="employmentCity" placeholder="请输入公司所在城市，未就业填无" /></td>
 								</tr>
 								<tr>
 									<td>电话</td>
@@ -61,7 +61,7 @@
 								</tr>
 								<tr>
 									<td>邮箱</td>
-									<td><input type="text" name="email" id="email" placeholder="请输入邮箱地址" /></td>
+									<td><input type="email" name="email" id="email" placeholder="请输入邮箱地址" /></td>
 								</tr>
 								<tr>
 									<td>密码</td>
@@ -75,5 +75,67 @@
 			</div>
 		</div>
 	</body>
+	<script>
+		function checkData() {
+            var name = document.getElementById("name").value;
+            var grade = document.getElementById("grade").value;
 
+            var major = document.getElementById("major").value;
+            var employmentCompany = document.getElementById("employmentCompany").value;
+            var employmentCity = document.getElementById("employmentCity").value;
+
+            var phone = document.getElementById("phone").value;
+            var wechat = document.getElementById("wechat").value;
+            var qq = document.getElementById("qq").value;
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            if(name==null||name==''||name.trim().length==0){
+                alert("姓名不能为空");
+                return false;
+            }
+            if(grade==null||grade==''||grade.trim().length==0){
+                alert("年级不能为空");
+                return false;
+            }
+            if(major==null||major==''||major.trim().length==0){
+                alert("专业不能为空");
+                return false;
+            }
+            if(employmentCompany==null||employmentCompany==''||employmentCompany.trim().length==0){
+                alert("就业公司不能为空");
+                return false;
+            }
+            if(employmentCity==null||employmentCity==''||employmentCity.trim().length==0){
+                alert("就业城市不能为空");
+                return false;
+            }
+            if(phone==null||phone==''||phone.trim().length==0||phone.trim().length<11){
+                alert("联系电话格式有误，请重新输入！");
+                return false;
+            }
+            if(wechat==null||wechat==''||wechat.trim().length==0){
+                alert("微信号不能为空");
+                return false;
+            }
+            if(qq==null||qq==''||qq.trim().length==0){
+                alert("QQ号码不能为空");
+                return false;
+            }
+            if(email==null||email==''||email.trim().length==0){
+                alert("邮箱地址不能为空");
+                return false;
+            }
+            if(password==null||password==''||password.trim().length==0){
+                alert("密码不能为空");
+                return false;
+            }
+            if(password.length<6){
+                alert("密码长度不能小于6位！");
+                return false;
+            }
+
+            return true;
+        }
+	</script>
 </html>
