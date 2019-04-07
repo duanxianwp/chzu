@@ -16,7 +16,7 @@
 			<hr>
 			<div class="am-g">
 				<div class="am-u-sm-12">
-					<form class="am-form" action="/questionnaire/pc/add" method="post">
+					<form class="am-form" action="/questionnaire/pc/add" onsubmit="return checkData()" method="post">
 						<table class="am-table am-table-striped am-table-hover table-main">
 							<tbody>
 								<tr>
@@ -45,5 +45,19 @@
 			</div>
 		</div>
 	</body>
-
+	<script>
+        function checkData() {
+            var name = document.getElementById("name").value;
+            if(name==null||name==''||name.trim().length==0){
+                alert("名称不能为空");
+                return false;
+            }
+            var endTime = document.getElementById("endTime").value;
+            if(endTime==null||endTime==''||endTime.trim().length==0){
+                alert("结束时间不能为空");
+                return false;
+            }
+            return true;
+        }
+	</script>
 </html>
