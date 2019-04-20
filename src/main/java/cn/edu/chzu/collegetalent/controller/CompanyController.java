@@ -51,6 +51,11 @@ public class CompanyController extends BaseApiController{
                            @RequestParam(name = "serviceTrade") String serviceTrade){
         JSONObject responseData = ServiceParamHelper.createSuccessResultJSONObject();
 
+        CtCompany checkMail = companyService.getByEmail(email);
+        if(checkMail!=null){
+            throw new ServiceException("此邮箱已被占用，请勿重复注册！");
+        }
+
         CtCompany company = new CtCompany();
         company.setName(name);
         company.setPassword(password);
@@ -137,7 +142,7 @@ public class CompanyController extends BaseApiController{
                            @RequestParam(name = "contact") String contact,
                            @RequestParam(name = "address") String address,
                            @RequestParam(name = "phone") String phone,
-                           @RequestParam(name = "email") String email,
+                           //@RequestParam(name = "email") String email,
                            @RequestParam(name = "serviceTrade") String serviceTrade){
 
         CtCompany company = companyService.get(id);
@@ -149,7 +154,7 @@ public class CompanyController extends BaseApiController{
         company.setContact(contact);
         company.setAddress(address);
         company.setPhone(phone);
-        company.setEmail(email);
+        //company.setEmail(email);
         company.setServiceTrade(serviceTrade);
 
         companyService.update(company);

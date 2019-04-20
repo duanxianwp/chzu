@@ -46,6 +46,18 @@ public class CompanyService {
         return list.get(0);
     }
 
+    public CtCompany getByEmail(String email){
+        CtCompanyExample example = new CtCompanyExample();
+        example.createCriteria()
+                .andDelFlagEqualTo(Constant.DelFlag.NODEL).andEmailEqualTo(email);
+        List<CtCompany> list = companyMapper.selectByExample(example);
+        if(list.isEmpty()){
+            return null;
+        } else {
+            return list.get(0);
+        }
+    }
+
     public List<CtCompany> listAll(){
         CtCompanyExample example = new CtCompanyExample();
         example.createCriteria()

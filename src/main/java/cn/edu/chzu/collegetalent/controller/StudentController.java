@@ -61,6 +61,12 @@ public class StudentController extends BaseApiController {
                            @RequestParam(name = "wechat", required = false, defaultValue = "") String wechat,
                            @RequestParam(name = "qq", required = false, defaultValue = "") String qq,
                            @RequestParam(name = "email") String email){
+
+        CtStudents checkMail = studentService.getByEmail(email);
+        if(checkMail!=null){
+            throw new ServiceException("此邮箱已被占用，请勿重复注册！");
+        }
+
         CtStudents students = new CtStudents();
         students.setName(name);
         students.setPassword(password);
@@ -128,6 +134,7 @@ public class StudentController extends BaseApiController {
 
     @PostMapping("/pc/edit.do")
     public Object pcEditDo(@RequestParam(name = "id") Integer id,
+                           @RequestParam(name = "name") String name,
                            @RequestParam(name = "sex") String sex,
                            @RequestParam(name = "password") String password,
                            @RequestParam(name = "grade") String grade,
@@ -142,6 +149,7 @@ public class StudentController extends BaseApiController {
         if(!password.equals(students.getPassword())&&!EncryptHelper.MD5(password).equals(students.getPassword())){
             students.setPassword(EncryptHelper.MD5(password));
         }
+        students.setName(name);
         students.setSex(sex);
         students.setGrade(grade);
         students.setMajor(major);

@@ -44,6 +44,17 @@ public class StudentService {
         return studentsMapper.selectByExample(example);
     }
 
+    public CtStudents getByEmail(String email){
+        CtStudentsExample example = new CtStudentsExample();
+        example.createCriteria().andDelFlagEqualTo(Constant.DelFlag.NODEL).andEmailEqualTo(email);
+        List<CtStudents> list = studentsMapper.selectByExample(example);
+        if(list.isEmpty()){
+            return null;
+        } else {
+            return list.get(0);
+        }
+    }
+
     public List<CtStudents> search(String key){
         return studentsMapper.search(key);
     }

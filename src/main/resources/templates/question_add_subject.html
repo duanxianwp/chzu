@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="/res/css/amazeui.min.css" />
+		<link rel="stylesheet" href="/res/css/admin.css" />
+	</head>
+
+	<body>
+		<div class="admin-content-body">
+			<div class="am-cf am-padding am-padding-bottom-0">
+				<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">添加问卷题目信息</strong><small></small></div>
+			</div>
+			<hr>
+			<div class="am-g">
+				<div class="am-u-sm-12 am-u-md-6">
+					<div class="am-btn-toolbar">
+						<div class="am-btn-group am-btn-group-xs">
+							<button type="button"
+									class="am-btn am-btn-success"
+									id="doc-prompt-toggle"><span class="am-icon-plus"></span> 新增</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
+					<div class="am-modal-dialog">
+						<div class="am-modal-hd"><b>添加题目信息</b></div>
+						<div class="am-modal-bd">
+							选择您要添加的题目类型<br/>
+							<input type="radio" name="sub_type" id="red" checked="checked">&nbsp;选择题 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="sub_type" id="blue">&nbsp;填空题<br/>
+							<div class="sub_content">
+
+								<table id="choice_table" class="am-table am-table-striped am-table-hover table-main">
+									<thead>
+										<tr>
+											<th>题目</th>
+											<th>选项(以|分割,填空题无需填写)</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><input type="text" /></td>
+											<td><input type="text" /></td>
+										</tr>
+									</tbody>
+								</table>
+<!--
+
+								<button type="button" class="am-btn am-btn-success" style="height: 35px;width: 100px;" id="add_choice" onclick="addChoice()">新增选项</button>
+
+-->
+
+							</div>
+						</div>
+						<div class="am-modal-footer">
+							<span class="am-modal-btn" data-am-modal-cancel>取消</span>
+							<span class="am-modal-btn" data-am-modal-confirm>提交</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="am-u-sm-12">
+					<form class="am-form" action="/questionnaire/pc/add" onsubmit="return checkData()" method="post">
+						<table class="am-table am-table-striped am-table-hover table-main">
+							<caption th:text="${qn.name}"></caption>
+							<thead>
+								<tr>
+									<th>题号</th>
+									<th>题目内容</th>
+									<th>题目选项</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								<tr>
+									<td>1</td>
+									<td>您对所学专业课程设置是否满意</td>
+									<td>非常满意|满意|比较满意|不满意|非常不满意</td>
+								</tr>
+
+							</tbody>
+						</table>
+						<button type="submit" class="am-btn am-btn-success" >提交</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+	<script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+	<script>
+		var choiceNum = 1;
+        $(function() {
+            $('#doc-prompt-toggle').on('click', function() {
+                $('#my-prompt').modal({
+                    relatedTarget: this,
+                    onConfirm: function(e) {
+                        alert('你输入的是：' + e.data || '')
+                    },
+                    onCancel: function(e) {
+                        //alert('不想说!');
+                    }
+                });
+            });
+        });
+        function addChoice() {
+			$("#choice_table").append("<tr style=\"height: 20px\">\n" +
+                    "        <td><input type='text' value='"+(String.fromCharCode(65+choiceNum))+"'></td>" +
+                    "        <td><input type='text' ></td>" +
+                    "     </tr>");
+			choiceNum++;
+        }
+	</script>
+</html>
