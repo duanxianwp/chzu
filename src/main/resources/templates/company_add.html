@@ -41,7 +41,7 @@
 								</tr>
 								<tr>
 									<td>邮箱</td>
-									<td><input type="email" name="email" id="email" placeholder="请输入邮箱地址" /></td>
+									<td><input type="email" name="email" id="email" placeholder="请输入邮箱地址" onblur="checkMail()" onfocus="clean()" /><span id="warning" style="color: red"></span></td>
 								</tr>
 								<tr>
 									<td>密码</td>
@@ -55,7 +55,56 @@
 			</div>
 		</div>
 	</body>
+	<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
 	<script>
+
+        function isEmail(mail) {
+            var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            if (filter.test(mail)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function clean() {
+            $('#warning').html('');
+        }
+
+		function checkMail(){
+                var email = document.getElementById("email").value;
+
+                if(email==null||email==''||email.trim().length==0){
+                    return;
+                }
+                if(!isEmail(email)){
+                    $('#warning').html('邮箱格式有误，请重新输入');
+                    return;
+				}
+
+                $.ajax({
+                    type: "get",
+                    url: "/company/pc/add/check",
+                    data: "email=" + email,
+                    dataType: 'html',
+                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    success: function(result) {
+						result = JSON.parse(result);
+
+                        if(result["head"]["code"]!=0){
+                            //alert(result['head']['msg']);
+                            $('#warning').html(result['head']['msg']);
+                            return false;
+                        }
+                        //location.reload();
+                    }
+                });
+
+		}
+
+
+
+
 		function checkData() {
 			var name = document.getElementById("name").value;
 			var contact = document.getElementById("contact").value;

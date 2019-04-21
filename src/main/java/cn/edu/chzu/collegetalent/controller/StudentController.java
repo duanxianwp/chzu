@@ -54,6 +54,7 @@ public class StudentController extends BaseApiController {
                            @RequestParam(name = "sex") String sex,
                            @RequestParam(name = "grade") String grade,
                            @RequestParam(name = "major") String major,
+                           @RequestParam(name = "conduct", defaultValue = "良好") String conduct,
                            @RequestParam(name = "employment") Integer employment,
                            @RequestParam(name = "employmentCompany", required = false, defaultValue = "") String employmentCompany,
                            @RequestParam(name = "employmentCity", required = false, defaultValue = "") String employmentCity,
@@ -73,6 +74,7 @@ public class StudentController extends BaseApiController {
         students.setSex(sex);
         students.setGrade(grade);
         students.setMajor(major);
+        students.setConduct(conduct);
         students.setEmployment(employment);
         students.setEmploymentCompany(employmentCompany);
         students.setEmploymentCity(employmentCity);
@@ -101,6 +103,7 @@ public class StudentController extends BaseApiController {
                          @RequestParam(name = "sex") String sex,
                          @RequestParam(name = "grade") String grade,
                          @RequestParam(name = "major") String major,
+                         @RequestParam(name = "conduct", defaultValue = "良好") String conduct,
                          @RequestParam(name = "employment") Integer employment,
                          @RequestParam(name = "employmentCompany", required = false, defaultValue = "") String employmentCompany,
                          @RequestParam(name = "employmentCity", required = false, defaultValue = "") String employmentCity,
@@ -112,6 +115,7 @@ public class StudentController extends BaseApiController {
         students.setSex(sex);
         students.setGrade(grade);
         students.setMajor(major);
+        students.setConduct(conduct);
         students.setEmployment(employment);
         students.setEmploymentCompany(employmentCompany);
         students.setEmploymentCity(employmentCity);
@@ -139,6 +143,7 @@ public class StudentController extends BaseApiController {
                            @RequestParam(name = "password") String password,
                            @RequestParam(name = "grade") String grade,
                            @RequestParam(name = "major") String major,
+                           @RequestParam(name = "conduct") String conduct,
                            @RequestParam(name = "employment") Integer employment,
                            @RequestParam(name = "employmentCompany", required = false, defaultValue = "") String employmentCompany,
                            @RequestParam(name = "employmentCity", required = false, defaultValue = "") String employmentCity,
@@ -153,6 +158,7 @@ public class StudentController extends BaseApiController {
         students.setSex(sex);
         students.setGrade(grade);
         students.setMajor(major);
+        students.setConduct(conduct);
         students.setEmployment(employment);
         students.setEmploymentCompany(employmentCompany);
         students.setEmploymentCity(employmentCity);
@@ -174,11 +180,21 @@ public class StudentController extends BaseApiController {
         return modelAndView;
     }
 
+    @GetMapping("/pc/add/check")
+    public Object pcAddCheckMail(@RequestParam String email){
+        CtStudents checkMail = studentService.getByEmail(email);
+        if(checkMail!=null){
+            throw new ServiceException("此邮箱已被占用，请更换邮箱地址！");
+        }
+        return ServiceParamHelper.createSuccessResultJSONObject();
+    }
+
     @PostMapping("/pc/add")
     public Object pcAdd(@RequestParam(name = "name") String name,
                         @RequestParam(name = "sex") String sex,
                         @RequestParam(name = "grade") String grade,
                         @RequestParam(name = "major") String major,
+                        @RequestParam(name = "conduct") String conduct,
                         @RequestParam(name = "employment") Integer employment,
                         @RequestParam(name = "employmentCompany", required = false, defaultValue = "") String employmentCompany,
                         @RequestParam(name = "employmentCity", required = false, defaultValue = "") String employmentCity,
@@ -187,11 +203,18 @@ public class StudentController extends BaseApiController {
                         @RequestParam(name = "qq", required = false, defaultValue = "") String qq,
                         @RequestParam(name = "email") String email,
                         @RequestParam(name = "password") String password){
+
+        CtStudents checkMail = studentService.getByEmail(email);
+        if(checkMail!=null){
+            throw new ServiceException("此邮箱已被占用，请勿重复注册！");
+        }
+
         CtStudents students = new CtStudents();
         students.setName(name);
         students.setSex(sex);
         students.setGrade(grade);
         students.setMajor(major);
+        students.setConduct(conduct);
         students.setEmployment(employment);
         students.setEmploymentCompany(employmentCompany);
         students.setEmploymentCity(employmentCity);

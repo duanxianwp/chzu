@@ -7,6 +7,7 @@
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="sex" property="sex" jdbcType="VARCHAR" />
     <result column="grade" property="grade" jdbcType="VARCHAR" />
+    <result column="conduct" property="conduct" jdbcType="VARCHAR" />
     <result column="major" property="major" jdbcType="VARCHAR" />
     <result column="employment" property="employment" jdbcType="INTEGER" />
     <result column="employment_company" property="employmentCompany" jdbcType="VARCHAR" />
@@ -78,7 +79,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, `name`, password, sex, grade, major, employment, employment_company, employment_city,
+    id, name, password, sex, grade, conduct, major, employment, employment_company, employment_city, 
     phone, wechat, qq, email, del_flag, create_time, update_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.chzu.collegetalent.model.CtStudentsExample" >
@@ -132,18 +133,18 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into ct_students (`name`, password, sex,
-      grade, major, employment, 
-      employment_company, employment_city, phone, 
-      wechat, qq, email, 
-      del_flag, create_time, update_time
-      )
+    insert into ct_students (name, password, sex, 
+      grade, conduct, major, 
+      employment, employment_company, employment_city, 
+      phone, wechat, qq, 
+      email, del_flag, create_time, 
+      update_time)
     values (#{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
-      #{grade,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, #{employment,jdbcType=INTEGER}, 
-      #{employmentCompany,jdbcType=VARCHAR}, #{employmentCity,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{wechat,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{delFlag,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+      #{grade,jdbcType=VARCHAR}, #{conduct,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
+      #{employment,jdbcType=INTEGER}, #{employmentCompany,jdbcType=VARCHAR}, #{employmentCity,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{wechat,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.chzu.collegetalent.model.CtStudents" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
@@ -152,7 +153,7 @@
     insert into ct_students
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="name != null" >
-        `name`,
+        name,
       </if>
       <if test="password != null" >
         password,
@@ -162,6 +163,9 @@
       </if>
       <if test="grade != null" >
         grade,
+      </if>
+      <if test="conduct != null" >
+        conduct,
       </if>
       <if test="major != null" >
         major,
@@ -209,6 +213,9 @@
       </if>
       <if test="grade != null" >
         #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="conduct != null" >
+        #{conduct,jdbcType=VARCHAR},
       </if>
       <if test="major != null" >
         #{major,jdbcType=VARCHAR},
@@ -258,7 +265,7 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.name != null" >
-        `name` = #{record.name,jdbcType=VARCHAR},
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.password != null" >
         password = #{record.password,jdbcType=VARCHAR},
@@ -268,6 +275,9 @@
       </if>
       <if test="record.grade != null" >
         grade = #{record.grade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.conduct != null" >
+        conduct = #{record.conduct,jdbcType=VARCHAR},
       </if>
       <if test="record.major != null" >
         major = #{record.major,jdbcType=VARCHAR},
@@ -310,10 +320,11 @@
   <update id="updateByExample" parameterType="map" >
     update ct_students
     set id = #{record.id,jdbcType=INTEGER},
-      `name` = #{record.name,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=VARCHAR},
       grade = #{record.grade,jdbcType=VARCHAR},
+      conduct = #{record.conduct,jdbcType=VARCHAR},
       major = #{record.major,jdbcType=VARCHAR},
       employment = #{record.employment,jdbcType=INTEGER},
       employment_company = #{record.employmentCompany,jdbcType=VARCHAR},
@@ -333,7 +344,7 @@
     update ct_students
     <set >
       <if test="name != null" >
-        `name` = #{name,jdbcType=VARCHAR},
+        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
@@ -343,6 +354,9 @@
       </if>
       <if test="grade != null" >
         grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="conduct != null" >
+        conduct = #{conduct,jdbcType=VARCHAR},
       </if>
       <if test="major != null" >
         major = #{major,jdbcType=VARCHAR},
@@ -382,10 +396,11 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.chzu.collegetalent.model.CtStudents" >
     update ct_students
-    set `name` = #{name,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       grade = #{grade,jdbcType=VARCHAR},
+      conduct = #{conduct,jdbcType=VARCHAR},
       major = #{major,jdbcType=VARCHAR},
       employment = #{employment,jdbcType=INTEGER},
       employment_company = #{employmentCompany,jdbcType=VARCHAR},

@@ -37,6 +37,17 @@
 									<td><input type="text" name="major" id="major" th:value="${student.major}" /></td>
 								</tr>
 								<tr>
+									<td>在校表现</td>
+									<td>
+										<select name="conduct">
+											<option value="优秀" th:attr ="selected=${'优秀' == student.conduct?true:false}">优秀</option>
+											<option value="良好" th:attr ="selected=${'良好' == student.conduct?true:false}">良好</option>
+											<option value="一般" th:attr ="selected=${'一般' == student.conduct?true:false}">一般</option>
+											<option value="较差" th:attr ="selected=${'较差' == student.conduct?true:false}">较差</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
 									<td>是否就业</td>
 									<td><input type="radio" name="employment" value="1" th:attr="checked=${student.employment==1?true:false}"/>&nbsp;已就业&nbsp;&nbsp;&nbsp;<input type="radio" name="employment" value="0" th:attr="checked=${student.employment!=1?true:false}" />&nbsp;未就业</td>
 								</tr>

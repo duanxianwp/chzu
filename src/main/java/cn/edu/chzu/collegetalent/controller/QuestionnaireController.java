@@ -52,6 +52,8 @@ public class QuestionnaireController extends BaseApiController {
         questionnaires.setType(type);
         Date endDate = DateHelper.toDate(endTime);
         questionnaires.setEndTime(endDate);
+        questionnaires.setCreateTime(new Date());
+        questionnaires.setUpdateTime(new Date());
         questionnaireService.add(questionnaires);
 
         PageHelper.startPage(1,10);
@@ -74,6 +76,27 @@ public class QuestionnaireController extends BaseApiController {
         return responseData;
     }
 
+    @GetMapping("/pc/del")
+    public Object delete(@RequestParam(name = "id") Integer id){
+        JSONObject responseData = ServiceParamHelper.createSuccessResultJSONObject();
+        log.info("处理器方法get,参数id=" + id);
+        CtQuestionnaires questionnaires = new CtQuestionnaires();
+        questionnaires.setId(id);
+        questionnaires.setDelFlag(Constant.DelFlag.DEL);
+        questionnaireService.update(questionnaires);
+
+        PageHelper.startPage(1,10);
+        List<CtQuestionnaires> list = questionnaireService.listAll();
+        PageInfo<CtQuestionnaires> info = new PageInfo<CtQuestionnaires>(list);
+
+        ModelAndView modelAndView = new ModelAndView("question");
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("total", info.getTotal());
+        modelAndView.addObject("pages", info.getPages());
+        modelAndView.addObject("pageNum", info.getPageNum());
+        return modelAndView;
+    }
+
     @GetMapping("/add_subject")
     public Object addSubject(@RequestParam(name = "id") Integer id){
 
@@ -85,12 +108,14 @@ public class QuestionnaireController extends BaseApiController {
     }
 
     @GetMapping("/list")
-    public Object list(@RequestParam(name = "pageNum", defaultValue = Constant.defaultPageNum) Integer pageNum,
+    public Object list(@RequestParam(defaultValue = "0") Integer id,
+                       @RequestParam(defaultValue = "学生") String type,
+                       @RequestParam(name = "pageNum", defaultValue = Constant.defaultPageNum) Integer pageNum,
                        @RequestParam(name = "pageSize", defaultValue = Constant.defaultPageSize) Integer pageSize){
         JSONObject responseData = ServiceParamHelper.createSuccessResultJSONObject();
 
         PageHelper.startPage(pageNum,pageSize);
-        List<CtQuestionnaires> list = questionnaireService.listAll();
+        List<CtQuestionnaires> list = questionnaireService.listByType(type);
         PageInfo<CtQuestionnaires> info = new PageInfo<CtQuestionnaires>(list);
 
         responseData.put("data", list);

@@ -48,6 +48,7 @@
 									<th class="table-type">性别</th>
 									<th class="table-author am-hide-sm-only">年级</th>
 									<th class="table-author am-hide-sm-only">专业</th>
+									<th class="table-author am-hide-sm-only">在校表现</th>
 									<th class="table-author am-hide-sm-only">是否就业</th>
 									<th class="table-author am-hide-sm-only">公司</th>
 									<th class="table-author am-hide-sm-only">城市</th>
@@ -64,6 +65,7 @@
 									<td th:text="${item.sex}"></td>
 									<td th:text="${item.grade}"></td>
 									<td th:text="${item.major}"></td>
+									<td th:text="${item.conduct}"></td>
 									<td th:text="${item.employment==1}?'已就业':'未就业'"></td>
 									<td th:text="${item.employmentCompany}"></td>
 									<td th:text="${item.employmentCity}"></td>

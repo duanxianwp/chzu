@@ -18,11 +18,11 @@ public interface CtStudentsMapper {
 
     List<CtStudents> selectByExample(CtStudentsExample example);
 
-    List<CtStudents> search(@Param("keyWord") String keyWord);
-
     CtStudents selectByPrimaryKey(Integer id);
 
-    CtStudents getByEmailAndPassword(@Param("email") String email, @Param("password") String password);
+    CtStudents getByEmailAndPassword(@Param("email") String email, @Param("password")String password);
+
+    List<CtStudents> search(@Param("keyWord") String keyWord);
 
     int updateByExampleSelective(@Param("record") CtStudents record, @Param("example") CtStudentsExample example);
 
@@ -31,5 +31,4 @@ public interface CtStudentsMapper {
     int updateByPrimaryKeySelective(CtStudents record);
 
     int updateByPrimaryKey(CtStudents record);
-
 }

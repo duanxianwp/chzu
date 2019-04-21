@@ -445,6 +445,76 @@ public class CtStudentsExample {
             return (Criteria) this;
         }
 
+        public Criteria andConductIsNull() {
+            addCriterion("conduct is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConductIsNotNull() {
+            addCriterion("conduct is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConductEqualTo(String value) {
+            addCriterion("conduct =", value, "conduct");
+            return (Criteria) this;
+        }
+
+        public Criteria andConductNotEqualTo(String value) {
+            addCriterion("conduct <>", value, "conduct");
+            return (Criteria) this;
+        }
+
+        public Criteria andConductGreaterThan(String value) {
+            addCriterion("conduct >", value, "conduct");
+            return (Criteria) this;
+        }
+
+        public Criteria andConductGreaterThanOrEqualTo(String value) {
+            addCriterion("conduct >=", value, "conduct");
+            return (Criteria) this;
+        }
+
+        public Criteria andConductLessThan(String value) {
+            addCriterion("conduct <", value, "conduct");
+            return (Criteria) this;
+        }
+
+        public Criteria andConductLessThanOrEqualTo(String value) {
+            addCriterion("conduct <=", value, "conduct");
+            return (Criteria) this;
+        }
+
+        public Criteria andConductLike(String value) {
+            addCriterion("conduct like", value, "conduct");
+            return (Criteria) this;
+        }
+
+        public Criteria andConductNotLike(String value) {
+            addCriterion("conduct not like", value, "conduct");
+            return (Criteria) this;
+        }
+
+        public Criteria andConductIn(List<String> values) {
+            addCriterion("conduct in", values, "conduct");
+            return (Criteria) this;
+        }
+
+        public Criteria andConductNotIn(List<String> values) {
+            addCriterion("conduct not in", values, "conduct");
+            return (Criteria) this;
+        }
+
+        public Criteria andConductBetween(String value1, String value2) {
+            addCriterion("conduct between", value1, value2, "conduct");
+            return (Criteria) this;
+        }
+
+        public Criteria andConductNotBetween(String value1, String value2) {
+            addCriterion("conduct not between", value1, value2, "conduct");
+            return (Criteria) this;
+        }
+
         public Criteria andMajorIsNull() {
             addCriterion("major is null");
             return (Criteria) this;

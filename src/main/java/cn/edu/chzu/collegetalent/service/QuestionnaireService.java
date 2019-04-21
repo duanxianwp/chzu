@@ -39,6 +39,14 @@ public class QuestionnaireService {
         return questionnaires;
     }
 
+    public List<CtQuestionnaires> listByType(String type){
+        CtQuestionnairesExample example = new CtQuestionnairesExample();
+        example.createCriteria()
+                .andTypeEqualTo(type)
+                .andDelFlagEqualTo(Constant.DelFlag.NODEL);
+        return questionnairesMapper.selectByExample(example);
+    }
+
     public List<CtQuestionnaires> listAll(){
         CtQuestionnairesExample example = new CtQuestionnairesExample();
         example.createCriteria()

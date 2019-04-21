@@ -71,6 +71,15 @@ public class CompanyController extends BaseApiController{
         return responseData;
     }
 
+    @GetMapping("/pc/add/check")
+    public Object pcAddCheckMail(@RequestParam String email){
+        CtCompany checkMail = companyService.getByEmail(email);
+        if(checkMail!=null){
+            throw new ServiceException("此邮箱已被占用，请更换邮箱地址！");
+        }
+        return ServiceParamHelper.createSuccessResultJSONObject();
+    }
+
     @PostMapping("/pc/add")
     public Object pcAdd(@RequestParam(name = "name") String name,
                         @RequestParam(name = "password") String password,
@@ -79,6 +88,11 @@ public class CompanyController extends BaseApiController{
                         @RequestParam(name = "phone") String phone,
                         @RequestParam(name = "email") String email,
                         @RequestParam(name = "serviceTrade") String serviceTrade){
+        CtCompany checkMail = companyService.getByEmail(email);
+        if(checkMail!=null){
+            throw new ServiceException("此邮箱已被占用，请勿重复注册！");
+        }
+
         CtCompany company = new CtCompany();
         company.setName(name);
         company.setPassword(EncryptHelper.MD5(password));

@@ -14,6 +14,8 @@ public class CtStudents implements Serializable {
 
     private String grade;
 
+    private String conduct;
+
     private String major;
 
     private Integer employment;
@@ -76,6 +78,14 @@ public class CtStudents implements Serializable {
 
     public void setGrade(String grade) {
         this.grade = grade == null ? null : grade.trim();
+    }
+
+    public String getConduct() {
+        return conduct;
+    }
+
+    public void setConduct(String conduct) {
+        this.conduct = conduct == null ? null : conduct.trim();
     }
 
     public String getMajor() {
@@ -177,6 +187,7 @@ public class CtStudents implements Serializable {
         sb.append(", password=").append(password);
         sb.append(", sex=").append(sex);
         sb.append(", grade=").append(grade);
+        sb.append(", conduct=").append(conduct);
         sb.append(", major=").append(major);
         sb.append(", employment=").append(employment);
         sb.append(", employmentCompany=").append(employmentCompany);
