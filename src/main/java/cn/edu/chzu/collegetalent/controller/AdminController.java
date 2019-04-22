@@ -1,5 +1,6 @@
 package cn.edu.chzu.collegetalent.controller;
 
+import cn.edu.chzu.collegetalent.helper.EncryptHelper;
 import cn.edu.chzu.collegetalent.helper.ServiceParamHelper;
 import cn.edu.chzu.collegetalent.model.CtAdmin;
 import cn.edu.chzu.collegetalent.service.AdminService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @auther: chzu
@@ -28,14 +30,19 @@ public class AdminController extends BaseApiController {
 
     @PostMapping("/login.do")
     public Object login(@RequestParam(name = "username") String username,
-                        @RequestParam(name = "password") String password, HttpServletRequest request){
+                        @RequestParam(name = "password") String password, HttpServletRequest request, HttpServletResponse response){
         JSONObject responseData = ServiceParamHelper.createSuccessResultJSONObject();
         if(StringUtils.isNotBlank(username)&&StringUtils.isNotBlank(password)){
-            CtAdmin admin = adminService.login(username,password);
+            CtAdmin admin = adminService.login(username,EncryptHelper.MD5(password));
             request.getSession().setAttribute("admin", admin);
             responseData.put("data", admin);
         }
-        return responseData;
+        try{
+            response.sendRedirect("/index");
+        } catch (Exception e){
+            log.error("登录成功跳转失败");
+        }
+        return "ok";
     }
 
     @PostMapping("/update")

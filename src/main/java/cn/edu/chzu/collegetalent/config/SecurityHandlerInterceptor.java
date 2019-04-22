@@ -24,16 +24,15 @@ public class SecurityHandlerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         HttpSession session = request.getSession();
-        Object user = session.getAttribute("user");
-        return true;
+        Object admin = session.getAttribute("admin");
 
-        /*if(user!=null){
+        if(admin!=null){
             return true;
         } else {
             String url = "/login";
             response.sendRedirect(url);
             return false;
-        }*/
+        }
     }
 
 }

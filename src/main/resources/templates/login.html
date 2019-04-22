@@ -18,10 +18,10 @@
 	<div id="output">
 		<div class="containerT">
 			<h1>用户登录</h1>
-			<form class="form" id="entry_form">
-				<input type="text" placeholder="用户名" id="entry_name" value="admin">
-				<input type="password" placeholder="密码" id="entry_password">
-				<button type="button" id="entry_btn">登录</button>
+			<form class="form" id="entry_form" action="/admin/login.do" method="post">
+				<input type="text" name="username" placeholder="用户名" id="entry_name" >
+				<input type="password" name="password" placeholder="密码" id="entry_password">
+				<button type="submit" id="entry_btn">登录</button>
 				<div id="prompt" class="prompt"></div>
 			</form>
 		</div>
@@ -32,11 +32,6 @@
     $(function(){
         Victor("container", "output");   //登录背景函数
         $("#entry_name").focus();
-        $(document).keydown(function(event){
-            if(event.keyCode==13){
-                $("#entry_btn").click();
-            }
-        });
     });
 </script>
 </body>

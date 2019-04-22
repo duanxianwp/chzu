@@ -24,7 +24,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/error")
                 .excludePathPatterns("/keepalived")
                 .excludePathPatterns("/login.do")
-                .excludePathPatterns("/pc/login.do")
+                .excludePathPatterns("/admin/login.do")
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/upload")
                 .excludePathPatterns(Arrays.asList("/students/register.do","/students/get","/students/update","/students/updatePassword"))
