@@ -19,4 +19,14 @@ public class SubjectService {
         return subjectMapper.selectByPrimaryKey(id);
     }
 
+    public CtSubject add(CtSubject subject){
+        subjectMapper.insertSelective(subject);
+        return subject;
+    }
+
+    public boolean del(Integer id){
+        subjectMapper.deleteByPrimaryKey(id);
+        return true;
+    }
+
 }

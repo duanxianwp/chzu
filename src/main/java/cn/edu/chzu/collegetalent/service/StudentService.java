@@ -44,6 +44,12 @@ public class StudentService {
         return studentsMapper.selectByExample(example);
     }
 
+    public List<CtStudents> city(){
+        CtStudentsExample example = new CtStudentsExample();
+        example.createCriteria().andEmploymentEqualTo(1).andDelFlagEqualTo(Constant.DelFlag.NODEL);
+        return studentsMapper.selectByExample(example);
+    }
+
     public CtStudents getByEmail(String email){
         CtStudentsExample example = new CtStudentsExample();
         example.createCriteria().andDelFlagEqualTo(Constant.DelFlag.NODEL).andEmailEqualTo(email);

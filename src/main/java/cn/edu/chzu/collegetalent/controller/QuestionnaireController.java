@@ -3,10 +3,7 @@ package cn.edu.chzu.collegetalent.controller;
 import cn.edu.chzu.collegetalent.constant.Constant;
 import cn.edu.chzu.collegetalent.helper.DateHelper;
 import cn.edu.chzu.collegetalent.helper.ServiceParamHelper;
-import cn.edu.chzu.collegetalent.model.CtAnswer;
-import cn.edu.chzu.collegetalent.model.CtCompany;
-import cn.edu.chzu.collegetalent.model.CtQuestionnaires;
-import cn.edu.chzu.collegetalent.model.CtStudents;
+import cn.edu.chzu.collegetalent.model.*;
 import cn.edu.chzu.collegetalent.service.*;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
@@ -99,13 +96,31 @@ public class QuestionnaireController extends BaseApiController {
 
     @GetMapping("/add_subject")
     public Object addSubject(@RequestParam(name = "id") Integer id){
+        CtQuestionnaires questionnaires = questionnaireService.get(id);
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("question_add_subject");
-        modelAndView.addObject("qn",questionnaireService.get(id));
+        modelAndView.addObject("qn",questionnaires);
+        modelAndView.addObject("count", questionnaires.getSubjects().size());
 
         return modelAndView;
     }
+
+    @RequestMapping(value = "/pc/delSubject",method = {RequestMethod.GET,RequestMethod.POST})
+    public Object delSubject(@RequestParam(name = "id") Integer id){
+        Integer qId = subjectService.get(id).getQnId();
+        subjectService.del(id);
+
+        CtQuestionnaires questionnaires = questionnaireService.get(qId);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("question_add_subject");
+        modelAndView.addObject("qn", questionnaires);
+        modelAndView.addObject("count", questionnaires.getSubjects().size());
+
+        return modelAndView;
+    }
+
 
     @GetMapping("/list")
     public Object list(@RequestParam(defaultValue = "0") Integer id,
@@ -216,5 +231,23 @@ public class QuestionnaireController extends BaseApiController {
 
         return responseData;
     }
+
+    @RequestMapping(value = "/pc/addSubject", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public Object pcAddSubject(@RequestBody List<CtSubject> subjects){
+        JSONObject responseData = ServiceParamHelper.createSuccessResultJSONObject();
+
+        log.info(subjects.size());
+
+        for(CtSubject subject : subjects){
+            subject.setDelFlag(Constant.DelFlag.NODEL);
+            subject.setCreateTime(new Date());
+            subject.setUpdateTime(new Date());
+            subjectService.add(subject);
+            log.info("insert in to db "+ subject);
+        }
+
+        return responseData;
+    }
+
 
 }
