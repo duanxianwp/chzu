@@ -1,10 +1,5 @@
 package cn.edu.chzu.collegetalent.exception;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/1/17 13:07
- * @description:
- */
 public class ServiceException extends RuntimeException {
 
     private static final long serialVersionUID = -7167467302684781087L;

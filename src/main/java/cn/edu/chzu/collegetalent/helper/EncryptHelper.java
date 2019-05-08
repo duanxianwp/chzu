@@ -5,11 +5,6 @@ import lombok.extern.apachecommons.CommonsLog;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/2/13 16:29
- * @description:
- */
 @CommonsLog
 public class EncryptHelper {
 

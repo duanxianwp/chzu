@@ -7,12 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/4/19 14:10
- * @description:
- */
 @Service
 public class AnswerService {
     @Autowired
@@ -29,5 +26,14 @@ public class AnswerService {
         return answerMapper.selectByExample(example);
     }
 
+    public Map<String,Long> list(Integer qnId, Integer subjectNum){
 
+        CtAnswerExample ctAnswerExample = new CtAnswerExample();
+        ctAnswerExample.createCriteria()
+                .andQnIdEqualTo(qnId)
+                .andSubjectNumEqualTo(subjectNum);
+
+        List<CtAnswer> ctAnswers = answerMapper.selectByExample(ctAnswerExample);
+        return ctAnswers.stream().collect(Collectors.groupingBy(CtAnswer::getSubjectContent,Collectors.counting()));
+    }
 }

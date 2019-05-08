@@ -8,13 +8,11 @@ import cn.edu.chzu.collegetalent.model.CtQuestionnairesExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/2/14 10:56
- * @description:
- */
 @Service
 public class QuestionnaireService {
 

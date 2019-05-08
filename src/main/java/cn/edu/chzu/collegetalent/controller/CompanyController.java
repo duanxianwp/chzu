@@ -18,11 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/2/14 00:53
- * @description:
- */
 @CommonsLog
 @Controller
 @RequestMapping("/company")

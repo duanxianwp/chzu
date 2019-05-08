@@ -9,11 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/1/17 13:36
- * @description: 启动监控
- */
 @Controller
 @ResponseBody
 public class KeepAlivedController {

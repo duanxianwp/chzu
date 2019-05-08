@@ -5,11 +5,6 @@ import cn.edu.chzu.collegetalent.model.CtAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/2/13 16:38
- * @description:
- */
 @Service
 public class AdminService {
 

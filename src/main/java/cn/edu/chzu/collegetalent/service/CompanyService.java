@@ -9,11 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/2/14 00:45
- * @description:
- */
 @Service
 public class CompanyService {
     @Autowired

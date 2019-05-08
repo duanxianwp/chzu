@@ -1,10 +1,5 @@
 package cn.edu.chzu.collegetalent.constant;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/2/13 21:59
- * @description:
- */
 public class Constant {
 
     public static final String defaultPageSize = "10";

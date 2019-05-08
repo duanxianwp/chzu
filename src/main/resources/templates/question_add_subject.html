@@ -122,7 +122,10 @@
 						var answer = $("#addAnswer").val();
 						var sub_type = $("input[name='sub_type']:checked").val();
 
-						if(sub_type=='选择'&&(answer==null||answer==''||answer.trim().length==0)){
+						if(content==null||content==''||content.trim().length==0){
+							alert("请输入题目后提交！！");
+							return;
+						}else if(sub_type=='选择'&&(answer==null||answer==''||answer.trim().length==0)){
 							alert("请输入选项后提交！！");
 							return;
 						}

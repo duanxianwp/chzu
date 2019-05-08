@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.SQLException;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/1/17 13:13
- * @description: 统一异常处理
- */
 @CommonsLog
 @ResponseBody
 public class BaseApiController {

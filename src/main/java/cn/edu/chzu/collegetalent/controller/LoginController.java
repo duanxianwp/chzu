@@ -21,11 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/2/15 09:58
- * @description:
- */
 @CommonsLog
 @Controller
 public class LoginController extends BaseApiController{

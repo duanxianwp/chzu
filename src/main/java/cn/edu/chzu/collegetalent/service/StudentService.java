@@ -9,11 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/2/13 17:16
- * @description:
- */
 @Service
 public class StudentService {
 

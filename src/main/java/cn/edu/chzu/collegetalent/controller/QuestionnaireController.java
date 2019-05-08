@@ -14,16 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.xml.stream.events.EndDocument;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/2/14 11:17
- * @description:
- */
 @CommonsLog
 @Controller
 @ResponseBody
@@ -68,7 +64,7 @@ public class QuestionnaireController extends BaseApiController {
     @GetMapping("/get")
     public Object get(@RequestParam(name = "id") Integer id){
         JSONObject responseData = ServiceParamHelper.createSuccessResultJSONObject();
-        log.info("处理器方法get,参数id=" + id);
+        log.info("参数id=" + id);
         responseData.put("data", questionnaireService.get(id));
         return responseData;
     }
@@ -76,7 +72,6 @@ public class QuestionnaireController extends BaseApiController {
     @GetMapping("/pc/del")
     public Object delete(@RequestParam(name = "id") Integer id){
         JSONObject responseData = ServiceParamHelper.createSuccessResultJSONObject();
-        log.info("处理器方法get,参数id=" + id);
         CtQuestionnaires questionnaires = new CtQuestionnaires();
         questionnaires.setId(id);
         questionnaires.setDelFlag(Constant.DelFlag.DEL);
@@ -176,14 +171,14 @@ public class QuestionnaireController extends BaseApiController {
                        @RequestParam(name = "pageSize", defaultValue = Constant.defaultPageSize) Integer pageSize){
         JSONObject responseData = ServiceParamHelper.createSuccessResultJSONObject();
 
-        //PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum,pageSize);
         List<CtQuestionnaires> list = questionnaireService.listAllWithSubject(null);
-        //PageInfo<CtQuestionnaires> info = new PageInfo<CtQuestionnaires>(list);
+        PageInfo<CtQuestionnaires> info = new PageInfo<CtQuestionnaires>(list);
 
         responseData.put("data", list);
-        //responseData.put("total", info.getTotal());
-        //responseData.put("totalPage", info.getPages());
-        //responseData.put("pageNum", pageNum);
+        responseData.put("total", info.getTotal());
+        responseData.put("totalPage", info.getPages());
+        responseData.put("pageNum", pageNum);
 
         return responseData;
     }
@@ -197,6 +192,7 @@ public class QuestionnaireController extends BaseApiController {
 
         JSONObject answerData = requestData.getJSONObject("answerData");
 
+        log.info("answerData:"+answerData);
         Integer answerId = requestData.getInteger("answerId");
         Integer qnId = requestData.getInteger("qnId");
 
@@ -204,6 +200,7 @@ public class QuestionnaireController extends BaseApiController {
         String answerName = "";
 
         CtQuestionnaires questionnaires = questionnaireService.get(qnId);
+        log.info("questionnaires:"+questionnaires);
         if(questionnaires.getType().equals("企业")){
             CtCompany company = companyService.get(answerId);
             answerType = "企业";
@@ -249,5 +246,43 @@ public class QuestionnaireController extends BaseApiController {
         return responseData;
     }
 
+    @GetMapping("/answer/list")
+    public Object answerList(){
 
+        List<CtAnswer> list =  answerService.list();
+        log.info("analysis:"+list);
+
+        ModelAndView modelAndView = new ModelAndView("analysis");
+        modelAndView.addObject("list", list);
+        modelAndView.addObject("questionaires",questionnaireService.listAll());
+        return modelAndView;
+    }
+
+    @GetMapping("/analysis")
+    public Object analysis(){
+
+        List<CtAnswer> answerList =  answerService.list();
+        Map<String,List<CtAnswer>> map =  answerService.list().stream().collect(Collectors.groupingBy(CtAnswer::getSubjectContent));
+        log.info("analysis:"+answerList);
+        log.info("analysis:"+map);
+
+        ModelAndView modelAndView = new ModelAndView("analysis");
+        modelAndView.addObject("list", answerList);
+        return modelAndView;
+    }
+
+    @GetMapping("/analysis/{tnId}/{subjectNum}")
+    public Object analysis(@PathVariable("tnId") Integer tnId,@PathVariable("subjectNum") Integer subjectNum) {
+
+        ModelAndView modelAndView = new ModelAndView("analysis");
+        Map<String, Long> groupInfo = answerService.list(tnId, subjectNum);
+        modelAndView.addObject("groupInfo", groupInfo);
+        modelAndView.addObject("questionaires", questionnaireService.listAll());
+        return modelAndView;
+    }
+
+        @GetMapping(value = "/subjects/{qnId}")
+    public List<CtSubject> getSubjectByQsId(@PathVariable Integer qnId) {
+        return subjectService.getSubjectsByQsId(qnId);
+    }
 }

@@ -2,11 +2,6 @@ package cn.edu.chzu.collegetalent.helper;
 
 import com.alibaba.fastjson.JSONObject;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/2/13 16:31
- * @description:
- */
 public class ServiceParamHelper {
 
     public static JSONObject createResultJSONObject(Integer code, String message) {

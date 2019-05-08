@@ -16,11 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/2/13 17:02
- * @description: 管理员控制器
- */
 @CommonsLog
 @Controller
 @RequestMapping("/admin")

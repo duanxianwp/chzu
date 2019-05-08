@@ -21,12 +21,6 @@ import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/2/13 17:16
- * @description:
- */
-
 @CommonsLog
 @Controller
 @RequestMapping("/students")
@@ -348,6 +342,7 @@ public class StudentController extends BaseApiController {
         ModelAndView modelAndView = new ModelAndView("employment");
         modelAndView.addObject("unemploy", unemploymentNum);
         modelAndView.addObject("employ", employmentNum);
+        log.info("modelAndView"+modelAndView );
         return modelAndView;
     }
 

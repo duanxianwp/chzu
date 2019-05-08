@@ -5,11 +5,6 @@ import org.springframework.util.StringUtils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/3/1 16:36
- * @description:
- */
 public class DateHelper {
 
     public static Date toDate(String str){

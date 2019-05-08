@@ -6,11 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * @auther: chzu
- * @date: Created in 2019/2/27 10:53
- * @description:
- */
 public class SecurityHandlerInterceptor implements HandlerInterceptor {
 
     /**
