@@ -275,7 +275,7 @@ public class QuestionnaireController extends BaseApiController {
     public Object analysis(@PathVariable("tnId") Integer tnId,@PathVariable("subjectNum") Integer subjectNum) {
 
         ModelAndView modelAndView = new ModelAndView("analysis");
-        Map<String, Long> groupInfo = answerService.list(tnId, subjectNum);
+        Map<String, Object> groupInfo = answerService.list(tnId, subjectNum);
         modelAndView.addObject("groupInfo", groupInfo);
         modelAndView.addObject("questionaires", questionnaireService.listAll());
         return modelAndView;

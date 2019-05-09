@@ -5,6 +5,7 @@ import cn.edu.chzu.collegetalent.model.CtSubject;
 import cn.edu.chzu.collegetalent.model.CtSubjectExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -25,6 +26,15 @@ public class SubjectService {
     public boolean del(Integer id){
         subjectMapper.deleteByPrimaryKey(id);
         return true;
+    }
+
+    public CtSubject get(Integer qnId, Integer num){
+        CtSubjectExample subjectExample = new CtSubjectExample();
+        subjectExample.createCriteria()
+                .andQnIdEqualTo(qnId)
+                .andNumEqualTo(num);
+        List<CtSubject> ctSubjects = subjectMapper.selectByExample(subjectExample);
+        return CollectionUtils.isEmpty(ctSubjects)?null:ctSubjects.get(0);
     }
 
     public List<CtSubject> getSubjectsByQsId(Integer qnId){
