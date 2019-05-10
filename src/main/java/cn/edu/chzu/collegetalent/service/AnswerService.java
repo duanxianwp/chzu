@@ -3,14 +3,16 @@ package cn.edu.chzu.collegetalent.service;
 import cn.edu.chzu.collegetalent.dao.CtAnswerMapper;
 import cn.edu.chzu.collegetalent.model.CtAnswer;
 import cn.edu.chzu.collegetalent.model.CtAnswerExample;
+import cn.edu.chzu.collegetalent.model.CtSubject;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class AnswerService {
@@ -31,20 +33,48 @@ public class AnswerService {
         return answerMapper.selectByExample(example);
     }
 
+    /**
+     * 分析选项情况
+     *
+     * @param qnId
+     * @param subjectNum
+     * @return
+     */
     public Map<String, Object> list(Integer qnId, Integer subjectNum) {
+
+
+        Map<String, Object> resp = new HashMap<>();
+        CtSubject ctSubject = subjectService.get(qnId, subjectNum);
+
+        /**
+         * 问题
+         */
+        resp.put("subject_content", ctSubject == null ? null : ctSubject.getContent());
+
+        /**
+         * 找出所有选项
+         */
+        JSONObject options = JSON.parseObject(ctSubject.getOption());
+        if (options!=null && options.size()>0){
+            for (String key : options.keySet()) {
+                resp.put("answer_"+key.toLowerCase(),options.get(key));
+            }
+        }
+        JSONArray optionJson = ctSubject.getOptionJson();
+        for (int i = 0; i < optionJson.size(); i++) {
+            String option = JSON.parseObject(JSON.toJSONString(optionJson.get(i))).get("optionSelector").toString();
+            resp.put("answer_"+option.split(" ")[0].toLowerCase()+"_num",countByAnswer(qnId,subjectNum,option));
+        }
+        return resp;
+    }
+
+    public Integer countByAnswer(Integer qnId,Integer subjectNum,String answer){
 
         CtAnswerExample ctAnswerExample = new CtAnswerExample();
         ctAnswerExample.createCriteria()
                 .andQnIdEqualTo(qnId)
-                .andSubjectNumEqualTo(subjectNum);
-
-        List<CtAnswer> ctAnswers = answerMapper.selectByExample(ctAnswerExample);
-        Map<String, Object> resp = new HashMap<>();
-        resp.put("question", subjectService.get(qnId, subjectNum));
-        if (CollectionUtils.isEmpty(ctAnswers)) {
-            return resp;
-        }
-        resp.put("data", ctAnswers.stream().collect(Collectors.groupingBy(CtAnswer::getAnswer, Collectors.counting())));
-        return resp;
+                .andSubjectNumEqualTo(subjectNum)
+                .andAnswerEqualTo(answer);
+        return answerMapper.countByExample(ctAnswerExample);
     }
 }
